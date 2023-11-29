@@ -10,6 +10,25 @@ Having the initial project written in [TypeScript](https://www.typescriptlang.or
 
 I've used [Bootstrap](https://getbootstrap.com/) for the UI on most of my projects, but I want to try [FluentUI](https://developer.microsoft.com/fluentui), we are using it on the project at my workplace as it looks quite nice, it comes with a large number of controls and also the nice styling. From what I gather we can use it with [MAUI](https://dotnet.microsoft.com/apps/maui) as well, might get a mobile or desktop app as well.
 
+## Milestones
+
+**Preview Version** ![planned](./assets/planned.png)  
+\- Project setup ![planned](./assets/planned.png)  
+\- Automated deployment ![planned](./assets/planned.png)  
+\- Expense tracking ![planned](./assets/planned.png)  
+\- Expense tag management ![planned](./assets/planned.png)  
+\- Expense shop management ![planned](./assets/planned.png)  
+\- Currency management ![planned](./assets/planned.png)  
+\- Dashboard ![planned](./assets/planned.png)
+
+![taking off](./assets/taking-off.png) = taking off
+| ![in flight](./assets/in-flight.png) = in flight
+| ![landing](./assets/landing.png) = landing  
+![planned](./assets/planned.png) = planned
+| ![in-progress](./assets/in-progress.png) = in progress
+| ![done](./assets/done.png) = done
+| ![cancelled](./assets/cancelled.png) = cancelled
+
 ## Preview Version
 
 First, I will be implementing this as a static website and cover the expense tracking. This is a preview version to get started with [FluentUI](https://developer.microsoft.com/fluentui) and explore the UI, all data will be stored using local storage and have some data options such as "clear data", or maybe even a data browser.
@@ -17,3 +36,7 @@ First, I will be implementing this as a static website and cover the expense tra
 This is only an initial implementation, all the object and type definitions should be easy to migrate to use [GraphQL](https://graphql.org/), authentication is not handled as everything is local, however I will build the application with authorization in mind. Authentication will be implemented using [Entra ID (Azure Active Directory B2C)](https://learn.microsoft.com/azure/active-directory-b2c/) and probably authorization as well (getting claims and all that).
 
 The preview will be hosted on [GitHub Pages](https://pages.github.com/) and deployed through [GitHub Actions](https://docs.github.com/actions) as this will be a static website. It may feature backup and restore options so the app alone can be used directly without any authentication. Being able to create backups and then restore them allows for a manual backup option. Once a week you can create a backup and whenever you change the browser you can restore that backup and you will have all of your expenses there.
+
+## Resources
+
+* Icons used from https://icons8.com/
