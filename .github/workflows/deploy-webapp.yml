@@ -66,7 +66,7 @@ jobs:
 
     environment:
       name: test-environment
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://billpathwebapptest.z6.web.core.windows.net/
 
     steps:
     - name: Download Artifact
@@ -79,6 +79,7 @@ jobs:
       uses: bacongobbler/azure-blob-storage-upload@main
       with:
         source_dir: billpath
+        account_name: billpathwebapptest
         container_name: $web
         sas_token: ${{ secrets.AZURE_STORAGE_SAS_TOKEN }}
         sync: true
