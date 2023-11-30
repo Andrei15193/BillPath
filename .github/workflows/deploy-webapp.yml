@@ -1,11 +1,11 @@
-name: Deploy WebApp to GitHub Pages
+name: Deploy WebApp
 
-on:
-  push:
-    branches:
-    - dev
-    paths:
-    - webApp/**
+on: push
+#  push:
+#    branches:
+#    - dev
+#    paths:
+#    - webApp/**
 
 jobs:
   build:
@@ -39,10 +39,11 @@ jobs:
         path: webApp/build
         retention-days: 3
 
-  deploy:
+  release:
     needs: build
-    name: Deploy to GitHub Pages
+    name: Deploy to GitHub Pages (Release)
     runs-on: ubuntu-latest
+    if: github.ref_name == 'dev'
 
     permissions:
       pages: write
@@ -56,3 +57,28 @@ jobs:
     - name: Deploy
       id: deployment
       uses: actions/deploy-pages@v2
+
+  test-env:
+    needs: build
+    name: Deploy to Test Environment
+    runs-on: ubuntu-latest
+    if: github.ref_name != 'dev'
+
+    environment:
+      name: test-environment
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: github-pages
+        path: billpath
+
+    - name: Deploy
+      uses: bacongobbler/azure-blob-storage-upload@main
+      with:
+        source_dir: billpath
+        container_name: $web
+        sas_token: ${{ secrets.AZURE_STORAGE_SAS_TOKEN }}
+        sync: true
