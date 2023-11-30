@@ -16,6 +16,7 @@ I've used [Bootstrap](https://getbootstrap.com/) for the UI on most of my projec
 \- Project setup ![planned](./assets/planned.png)  
 \- Automated deployment ![planned](./assets/planned.png)  
 \- Expense tracking ![planned](./assets/planned.png)  
+\- Expense templates ![planned](./assets/planned.png)  
 \- Expense tag management ![planned](./assets/planned.png)  
 \- Expense shop management ![planned](./assets/planned.png)  
 \- Currency management ![planned](./assets/planned.png)  
