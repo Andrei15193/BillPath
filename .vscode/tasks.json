@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "detail": "webpack serve",
+      "label": "npm: dev - webApp",
+      "type": "npm",
+      "script": "dev",
+      "path": "webApp",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "npm: test - webApp",
+      "detail": "jest",
+      "type": "npm",
+      "script": "test",
+      "path": "webApp",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

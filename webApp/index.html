@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <link href="<%= resetCss.bundleFileName %>?version=<%= resetCss.version %>" rel="stylesheet">
+</head>
+<body>
+  <div id="billpath" class="loading">BP</div>
+
+  <script src="<%= react.bundleFileName %>?version=<%= react.version %>"></script>
+  <script src="<%= reactDom.bundleFileName %>?version=<%= reactDom.version %>"></script>
+</body>
+</html>

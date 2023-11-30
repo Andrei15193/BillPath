@@ -1,0 +1,43 @@
+:root {
+  --billpath---color-accent: rgb(251 115 116)
+}
+
+@keyframes billpath-loading-animation {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.6;
+  }
+}
+
+html,
+html>body,
+html>body>div#billpath {
+  height: 100vh;
+  width: 100vw;
+}
+
+html>body>div#billpath {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+html>body>div#billpath.loading {
+  animation-name: billpath-loading-animation;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 30rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  color: var(--billpath---color-accent);
+}

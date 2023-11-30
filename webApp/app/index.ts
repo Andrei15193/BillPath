@@ -1,0 +1,1 @@
+export { type IAppProps, App } from "./App";
