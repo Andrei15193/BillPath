@@ -79,7 +79,7 @@ jobs:
       with:
         command: x
         files: artifact.tar
-        outPath: billpath
+        cwd: billpath
 
     - run: |
         ls -r
