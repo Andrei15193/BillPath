@@ -75,17 +75,13 @@ jobs:
         name: github-pages
 
     - name: Extract Artifact
-      uses: a7ul/tar-action@v1.1.3
-      with:
-        command: x
-        files: artifact.tar
-        cwd: billpath
+      run: tar -xzvf artifact.tar -C billpath
 
     - run: |
         ls -r
 
     - name: Deploy
-      uses: bacongobbler/azure-blob-storage-upload@main
+      uses: bacongobbler/azure-blob-storage-upload@3
       with:
         source_dir: billpath
         account_name: billpathwebapptest
