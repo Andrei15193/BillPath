@@ -75,7 +75,9 @@ jobs:
         name: github-pages
 
     - name: Extract Artifact
-      run: tar -xf artifact.tar -C /billpath
+      run: |
+        mkdir billpath
+        tar --extract --file artifact.tar --directory billpath
 
     - run: |
         ls -r
