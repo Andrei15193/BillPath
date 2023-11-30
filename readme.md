@@ -10,11 +10,11 @@ Having the initial project written in [TypeScript](https://www.typescriptlang.or
 
 I've used [Bootstrap](https://getbootstrap.com/) for the UI on most of my projects, but I want to try [FluentUI](https://developer.microsoft.com/fluentui), we are using it on the project at my workplace as it looks quite nice, it comes with a large number of controls and also the nice styling. From what I gather we can use it with [MAUI](https://dotnet.microsoft.com/apps/maui) as well, might get a mobile or desktop app as well.
 
-## Milestones
+## Roadmap
 
-**Preview Version** ![planned](./assets/planned.png)  
-\- Project setup ![planned](./assets/planned.png)  
-\- Automated deployment ![planned](./assets/planned.png)  
+**Preview Version** ![taking off](./assets/taking-off.png)  
+\- Project setup ![done](./assets/done.png)  
+\- Automated deployment ![done](./assets/done.png)  
 \- Expense tracking ![planned](./assets/planned.png)  
 \- Expense templates ![planned](./assets/planned.png)  
 \- Expense tag management ![planned](./assets/planned.png)  
