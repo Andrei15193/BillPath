@@ -1,11 +1,9 @@
 name: Deploy WebApp
 
-on: push
-#  push:
-#    branches:
-#    - dev
-#    paths:
-#    - webApp/**
+on:
+  push:
+    paths:
+    - webApp/**
 
 jobs:
   build:
@@ -78,9 +76,6 @@ jobs:
       run: |
         mkdir billpath
         tar --extract --file artifact.tar --directory billpath
-
-    - run: |
-        ls -r
 
     - name: Deploy
       uses: bacongobbler/azure-blob-storage-upload@main
