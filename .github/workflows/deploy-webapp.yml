@@ -82,7 +82,7 @@ jobs:
         outPath: billpath
 
     - run: |
-        ls -r billpath
+        ls -r
 
     - name: Deploy
       uses: bacongobbler/azure-blob-storage-upload@main
