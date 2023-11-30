@@ -81,7 +81,7 @@ jobs:
         ls -r
 
     - name: Deploy
-      uses: bacongobbler/azure-blob-storage-upload@3.0.0
+      uses: bacongobbler/azure-blob-storage-upload@main
       with:
         source_dir: billpath
         account_name: billpathwebapptest
