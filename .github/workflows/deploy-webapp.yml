@@ -73,13 +73,12 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: github-pages
-        path: artifacts
 
     - name: Extract Artifact
       uses: a7ul/tar-action@v1.1.0
       with:
         command: x
-        files: artifacts/*.tar
+        files: artifact.tar
         outPath: billpath
 
     - name: Deploy
