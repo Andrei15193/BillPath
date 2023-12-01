@@ -41,3 +41,11 @@ The preview will be hosted on [GitHub Pages](https://pages.github.com/) and depl
 ## Resources
 
 * Icons used from https://icons8.com/
+* Color palette from https://www.colorcombos.com  
+  https://www.colorcombos.com/color-schemes/5821/ColorCombo5821.html  
+  \- #C5AAF5  
+  \- #A3CBF1  
+  \- #79BFA1  
+  \- #F5A352  
+  \- #FB7374 (accent)  
+  \- #423C40
