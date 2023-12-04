@@ -5,19 +5,23 @@
     "build"
   ],
   "plugins": [
-    "import"
+    "import",
+    "react"
   ],
   "rules": {
     "no-console": [
       "warn"
     ],
+    "no-trailing-spaces": [
+      "error"
+    ],
     "import/order": [
       "error",
       {
         "groups": [
+          "type",
           "builtin",
           "external",
-          "type",
           "index",
           "object",
           "parent",
@@ -36,6 +40,30 @@
     "quotes": [
       "error",
       "double"
+    ],
+    "react/jsx-indent": [
+      "error",
+      2,
+      {
+        "checkAttributes": true,
+        "indentLogicalExpressions": true
+      }
+    ],
+    "react/forbid-dom-props": [
+      "error",
+      {
+        "forbid": [
+          "style"
+        ]
+      }
+    ],
+    "react/forbid-component-props": [
+      "error",
+      {
+        "forbid": [
+          "style"
+        ]
+      }
     ]
   }
 }

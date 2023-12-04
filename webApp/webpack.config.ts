@@ -65,7 +65,7 @@ export default {
         },
         "Content-Security-Policy": {
           "http-equiv": "Content-Security-Policy",
-          "content": "script-src 'self'; style-src 'self'; img-src 'self'; default-src 'none'"
+          "content": "script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; default-src 'none'"
         },
         "Cache-Control": {
           "http-equiv": "Cache-Control",
@@ -111,7 +111,11 @@ export default {
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader"
-        ],
+        ]
+      },
+      {
+        test: /\.png$/,
+        type: "asset/resource"
       }
     ],
   },
@@ -126,7 +130,7 @@ export default {
   },
   devServer: {
     headers: {
-      "Content-Security-Policy": "script-src 'self'; style-src 'self'; img-src 'self'; default-src 'none'",
+      "Content-Security-Policy": "script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; default-src 'none'",
       "Cache-Control": "no-cache, no-store, must-revalidate",
       "Pragma": "no-cache",
       "Expires": "0"

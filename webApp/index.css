@@ -12,18 +12,17 @@
   }
 }
 
-html,
-html>body,
-html>body>div#billpath {
-  height: 100vh;
-  width: 100vw;
-}
-
 html>body>div#billpath {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: stretch;
+
+  height: 100vh;
+}
+
+html>body>div#billpath>*:first-child {
+  flex: 1 1 auto;
 }
 
 html>body>div#billpath.loading {
