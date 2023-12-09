@@ -38,6 +38,30 @@ This is only an initial implementation, all the object and type definitions shou
 
 The preview will be hosted on [GitHub Pages](https://pages.github.com/) and deployed through [GitHub Actions](https://docs.github.com/actions) as this will be a static website. It may feature backup and restore options so the app alone can be used directly without any authentication. Being able to create backups and then restore them allows for a manual backup option. Once a week you can create a backup and whenever you change the browser you can restore that backup and you will have all of your expenses there.
 
+## Cost Tracking
+
+As part of the project, I want to keep track of monthly costs and maybe show them on the dashboard along side latest commits, last month's hosting cost for release environment and development costs and so on. It may be useful if I want to setup donations so it is clear how much of the donations are covering the hosting and other associated costs.
+
+The monthly goal would be to be able to cover the hosting costs, also showing total costs thus far and how much donations have covered this to know how much I've paid for the app and how much was covered by other people, if at all :D
+
+Money is always a sensitive topic, this is not intended to make people uneasy or put banners in their face saying something like "HEY! YOU ARE USING THIS APP FOR FREE, DONATE!!1!". The service is provided for free.
+
+If I end up needing to cover costs for hosting and so on I will get some subscription plan, like BillPath Premium or something like that, and get some features behind a paywall and if you need them you pay for them. Just like any other company.
+
+I really don't like it when I get "bullied" or guilt tripped for not donating for an open-source project. I get it, people want to work on their own projects and also get paid for it, however we live in the real world where we do not always get to always do what we want and the world to just support us.
+
+I've always seen open-source as being free work, if you get something back from donations, great, however I do not think it is fair to have the expectation that people will donate. If the intent of an open-source project is to get money for their work, put up a license, sell the product under commercial laws and not expect donations to magically pop up and cover your efforts.
+
+This applies to this project as well, it is open-source and is licensed that any changes to it must also be open-source. I think it is only fair to maintain all development on this project and other changes that spring from it as open-source.
+
+Going forward, I won't be showing the total cost of hosting, development and other things on the dashboard. I will be storing the billing information for each invoice, but this is mostly for me to know how much I've been spending on this.
+
+It depends if I opt for donations, in which case it makes sense. As a donor you should know how much your donation is helping, if at all, and whether there are some costs that need to be covered. The donations route is for keeping the project going, not making me rich. To be fair, I wouldn't refuse any extra cash haha
+
+If I go down the license and BillPath Premium route, then the paid features will be similar to what you get from a company. 24-hour or 48-hour resposne time for assistence, uptime guarantees also known as Service-Level Agreement (SLA) and all the other goodies. The purpose is to offer a service for an amount of money that ensures the continuation of the project, both maintainance and development of new features, and make a modest profit.
+
+The routes are obviously different at their core and it depends on what I am willing to sign myself up for. With donations I can just flip a switch and turn off the app, it's open-source so anyone can host the app and continue. With licensing and subscriptions I need to provide a service regardless of how I feel about the project, turning off the app will take some time and needs to be clearly covered in the terms of service.
+
 ## Resources
 
 * Icons used from https://icons8.com/
