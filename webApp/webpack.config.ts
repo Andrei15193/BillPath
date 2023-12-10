@@ -38,7 +38,7 @@ export default {
   },
   output: {
     path: path.resolve(__dirname, "build"),
-    chunkFilename: "billpath.[id].js",
+    chunkFilename: "billpath.[id].js?[chunkhash]",
     clean: true
   },
   resolve: {

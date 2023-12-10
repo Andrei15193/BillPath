@@ -12,7 +12,7 @@ export function AppFooter(): JSX.Element {
     <div>
       <Divider />
       <Caption1 block align="center" className={appFooterClassName}>
-        <FormattedMessage defaultMessage="BillPath &copy; {year} Andrei15193" description="Copyright notice" values={{ year: new Date().getFullYear() }} />
+        <FormattedMessage defaultMessage="BillPath © {year} Andrei15193" description="Copyright notice" values={{ year: new Date().getFullYear() }} />
       </Caption1>
     </div>
   );
