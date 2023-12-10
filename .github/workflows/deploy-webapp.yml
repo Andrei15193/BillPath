@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - webApp/**
+    - .github/workflows/**
 
 jobs:
   build:
@@ -22,12 +23,16 @@ jobs:
       run: npm install
       working-directory: webApp
 
-    - name: Build
-      run: npm run release
+    - name: Compile Translations
+      run: npm run compile-i18n
       working-directory: webApp
 
     - name: Test
       run: npm run test
+      working-directory: webApp
+
+    - name: Build
+      run: npm run release
       working-directory: webApp
 
     - name: Upload Artifact

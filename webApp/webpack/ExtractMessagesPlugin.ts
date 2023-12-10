@@ -23,7 +23,7 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
       await Promise.all(
         ExtractMessagesPlugin
           ._supportedLocales
-          .map(localeId => this._processMessagesAsync(ExtractMessagesPlugin._defaultLocale === localeId , path.resolve("i18n", `${localeId}.json`)))
+          .map(localeId => this._processMessagesAsync(ExtractMessagesPlugin._defaultLocale === localeId , path.resolve("i18n", `${localeId}.json`), localeId))
       );
       await this._compileI18nAsync();
     });
@@ -53,7 +53,7 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
     );
   }
 
-  private async _processMessagesAsync(overwrite: boolean, messagesFilePath: string): Promise<void> {
+  private async _processMessagesAsync(overwrite: boolean, messagesFilePath: string, locale: string): Promise<void> {
     const messages = await this._loadMessagesAsync(messagesFilePath);
 
     Object
@@ -73,7 +73,7 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
           messages[messageId] = messageDescriptor;
       });
 
-    await this._saveMessagesAsync(messagesFilePath, messages);
+    await this._saveMessagesAsync(messagesFilePath, locale, messages);
   }
 
   private _loadMessagesAsync(messagesFilePath: string): Promise<Record<string, Omit<MessageDescriptor, "id">>> {
@@ -92,9 +92,20 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
     );
   }
 
-  private _saveMessagesAsync(messagesFilePath: string, messages: Record<string, Omit<MessageDescriptor, "id">>): Promise<void> {
+  private _saveMessagesAsync(messagesFilePath: string, locale: string, messages: Record<string, Omit<MessageDescriptor, "id">>): Promise<void> {
+    const sortedMessages = Object
+      .getOwnPropertyNames(messages)
+      .sort((left, right) => (messages[left].defaultMessage as string).localeCompare(messages[right].defaultMessage as string, locale, { sensitivity: "base" }))
+      .reduce(
+        (result, messageId) => {
+          result[messageId] = messages[messageId];
+          return result;
+        },
+        {} as Record<string, Omit<MessageDescriptor, "id">>
+      );
+
     return new Promise<void>((resolve, reject) => {
-      fs.writeFile(messagesFilePath, JSON.stringify(messages, undefined, 2), err => {
+      fs.writeFile(messagesFilePath, JSON.stringify(sortedMessages, undefined, 2), err => {
         if (err)
           reject(err);
         else
