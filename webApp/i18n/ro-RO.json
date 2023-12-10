@@ -8,7 +8,7 @@
     "description": "The select label for the language picker."
   },
   "BvkEny": {
-    "defaultMessage": "Preferinţă Browser Web",
+    "defaultMessage": "Preferinţa din Browserul Web",
     "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
   }
 }
