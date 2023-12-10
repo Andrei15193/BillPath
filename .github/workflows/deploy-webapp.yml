@@ -22,12 +22,12 @@ jobs:
       run: npm install
       working-directory: webApp
 
-    - name: Test
-      run: npm run test
-      working-directory: webApp
-
     - name: Build
       run: npm run release
+      working-directory: webApp
+
+    - name: Test
+      run: npm run test
       working-directory: webApp
 
     - name: Upload Artifact
