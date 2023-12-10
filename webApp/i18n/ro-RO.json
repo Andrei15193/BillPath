@@ -1,12 +1,14 @@
 {
-  "k34Sdo": {
+  "ykfHOy": {
     "defaultMessage": "Cheltuieli",
-    "description": "Expenses list view title"
+    "description": "Expenses list view title."
   },
-  "y1Z3or": {
-    "defaultMessage": "Limbă"
+  "/si1Xg": {
+    "defaultMessage": "Limbă",
+    "description": "The select label for the language picker."
   },
-  "E3oB+t": {
-    "defaultMessage": "Browser Web"
+  "BvkEny": {
+    "defaultMessage": "Preferinţă Browser Web",
+    "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
   }
 }

@@ -19,10 +19,8 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
   const themeProviderClassName = useThemeProviderClassName();
 
   return (
-    <>
-      <FluentProvider theme={billPathLightTheme} className={themeProviderClassName}>
-        {children}
-      </FluentProvider>
-    </>
+    <FluentProvider theme={billPathLightTheme} className={themeProviderClassName}>
+      {children}
+    </FluentProvider>
   );
 }

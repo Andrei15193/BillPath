@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { App } from "./App";
+import { TestApp } from "./TestApp";
 
 test("definition test", () => {
   expect(1 + 2).toBe(3);
 });
 
 test("component test", () => {
-  render(<App />);
+  render(<TestApp />);
 
   expect(screen.getByText("Expenses")).toHaveTextContent("Expenses");
 });

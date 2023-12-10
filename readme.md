@@ -38,6 +38,24 @@ This is only an initial implementation, all the object and type definitions shou
 
 The preview will be hosted on [GitHub Pages](https://pages.github.com/) and deployed through [GitHub Actions](https://docs.github.com/actions) as this will be a static website. It may feature backup and restore options so the app alone can be used directly without any authentication. Being able to create backups and then restore them allows for a manual backup option. Once a week you can create a backup and whenever you change the browser you can restore that backup and you will have all of your expenses there.
 
+## Internationalization (i18n)
+
+Working on this I've learned something quite interesting and very useful when it comes to translations. I've came across something similar a while ago on a different project, but handing translations like this makes it really easy.
+
+Instead of the usual approach to translations where we define our translation files with explicit keys for each translation label, we can leverage the FormatJS tooling to extract and generate translation keys for us.
+
+This makes development easier because we can provide default messages and descriptions for context, and have them removed in the resulting bundle so they only reference the generated ID.
+
+Wherever we use phrases that need to be translated we provide the default message in English, we clearly see what would be shown and thether there are any arguments we need to pass.
+
+Through the tooling that they provide we can even tap into the extracted messages and fill our translation files with the missing ones, and remove the extra ones. They will show up nicely in the diff editor of the commit and we will know what needs to be translated for each particular language.
+
+The default language will contain the default messages and we do not need to make any changes to that.
+
+What I also like about this is that we can configure ESlint rules so we can enforce default messages and descriptions, as well as ensure there are no string literals in JSX as we can easily forget about it and commit the changes.
+
+This is a change in the usuall approach I have about this, but I really like and the tooling to keep everything up to date is great. One of the best things is removal of translation keys that are no longer used, it's always a gamble when we manually manage them as sometimes we get translation keys from the API and we do not know whether we can safely remove them or not so we just keep them around.
+
 ## Cost Tracking
 
 As part of the project, I want to keep track of monthly costs and maybe show them on the dashboard along side latest commits, last month's hosting cost for release environment and development costs and so on. It may be useful if I want to setup donations so it is clear how much of the donations are covering the hosting and other associated costs.

@@ -1,1 +1,1 @@
-export { type IAppProps, App } from "./App"
+export { type IWebAppProps, WebApp } from "./WebApp";

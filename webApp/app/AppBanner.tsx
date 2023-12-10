@@ -1,4 +1,5 @@
 import { Card, CardFooter, CardHeader, CardPreview, Display, makeResetStyles, makeStyles, mergeClasses, shorthands, tokens } from "@fluentui/react-components";
+import { FormattedMessage } from "react-intl";
 import banner from "../assets/banner.png";
 import { useMediaBrekpointClasses } from "../common/theme/styles";
 
@@ -51,7 +52,9 @@ function AppBannerContent(): JSX.Element {
 
   return (
     <div className={bannerContentClassName}>
-      <Display>BillPath</Display>
+      <Display>
+        <FormattedMessage defaultMessage="BillPath" description="Application name on the header." />
+      </Display>
     </div>
   );
 }

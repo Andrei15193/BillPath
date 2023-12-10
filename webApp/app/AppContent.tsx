@@ -19,19 +19,19 @@ export function AppContent(): JSX.Element {
     <div className={mergeClasses(marginContentClassName, appContentClassName)}>
       <div>
         <Title1>
-          <FormattedMessage defaultMessage="Expenses" description="Expenses list view title" />
+          <FormattedMessage defaultMessage="Expenses" description="Expenses list view title." />
         </Title1>
       </div>
 
       <label htmlFor="language-select">
-        <FormattedMessage defaultMessage="Language" />
+        <FormattedMessage defaultMessage="Language" description="The select label for the language picker." />
       </label>
       <Select
         id="language-select"
         value={languagePreferenceViewModel.preferredLanguage === null ? "" : languagePreferenceViewModel.preferredLanguage}
         onChange={(event, { value }) => { languagePreferenceViewModel.preferredLanguage = (value === "" ? null : value) }}>
         <option value="">
-          <FormattedMessage defaultMessage="Browser" />
+          <FormattedMessage defaultMessage="Web Browser Prefernece"  description="Default option for language selection, the user can always go back to have the language picked form their browser." />
         </option>
         {
           languagePreferenceViewModel.supportedLocales.map(locale => (

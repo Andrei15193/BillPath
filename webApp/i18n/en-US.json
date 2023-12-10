@@ -1,12 +1,14 @@
 {
-  "k34Sdo": {
+  "ykfHOy": {
     "defaultMessage": "Expenses",
-    "description": "Expenses list view title"
+    "description": "Expenses list view title."
   },
-  "y1Z3or": {
-    "defaultMessage": "Language"
+  "/si1Xg": {
+    "defaultMessage": "Language",
+    "description": "The select label for the language picker."
   },
-  "E3oB+t": {
-    "defaultMessage": "Browser"
+  "BvkEny": {
+    "defaultMessage": "Web Browser Prefernece",
+    "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
   }
 }

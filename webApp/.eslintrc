@@ -7,11 +7,50 @@
   "plugins": [
     "import",
     "react",
+    "formatjs",
     "@stylistic",
     "@stylistic/ts",
     "@stylistic/jsx"
   ],
   "rules": {
+    "formatjs/prefer-formatted-message": [
+      "warn"
+    ],
+    "formatjs/no-useless-message": [
+      "error"
+    ],
+    "formatjs/no-id": [
+      "error"
+    ],
+    "formatjs/no-invalid-icu": [
+      "error"
+    ],
+    "formatjs/no-multiple-whitespaces": [
+      "warn"
+    ],
+    "formatjs/no-multiple-plurals": [
+      "warn"
+    ],
+    "formatjs/no-offset": [
+      "warn"
+    ],
+    "formatjs/no-complex-selectors": [
+      "warn"
+    ],
+    "formatjs/enforce-default-message": [
+      "error",
+      "literal"
+    ],
+    "formatjs/enforce-placeholders": [
+      "error"
+    ],
+    "formatjs/enforce-description": [
+      "warn",
+      "literal"
+    ],
+    "formatjs/no-literal-string-in-jsx": [
+      "warn"
+    ],
     "no-console": [
       "warn"
     ],

@@ -6,7 +6,7 @@ import { useOverlayLoader } from "../overlayLoader";
 import { useLanguagePreferenceViewModel } from "./useLanguagePreferenceViewModel";
 import { resolveLocale } from "./resolveLocale";
 
-const defaultLocale = "en-US";
+export const DefaultLocale = "en-US";
 
 interface ILoadedLocale {
   readonly id: string;
@@ -22,7 +22,7 @@ export function LocaleProvider({ children }: PropsWithChildren<ILocaleProviderPr
 
   const overlayLoader = useOverlayLoader();
 
-  const [locale, setLocale] = useState<ILocale>(resolveLocale(languagePreferenceViewModel.preferredLanguage === null ? navigator.languages : [languagePreferenceViewModel.preferredLanguage], defaultLocale));
+  const [locale, setLocale] = useState<ILocale>(resolveLocale(languagePreferenceViewModel.preferredLanguage === null ? navigator.languages : [languagePreferenceViewModel.preferredLanguage], DefaultLocale));
   const [loadedLocale, setLoadedLocale] = useState<ILoadedLocale | null>(null);
 
   useEffect(
@@ -30,12 +30,12 @@ export function LocaleProvider({ children }: PropsWithChildren<ILocaleProviderPr
       if (languagePreferenceViewModel.preferredLanguage === null) {
         window.onlanguagechange = event => {
           if (!event.defaultPrevented)
-            setLocale(resolveLocale(navigator.languages, defaultLocale));
+            setLocale(resolveLocale(navigator.languages, DefaultLocale));
         };
-        setLocale(resolveLocale(navigator.languages, defaultLocale));
+        setLocale(resolveLocale(navigator.languages, DefaultLocale));
       }
       else
-        setLocale(resolveLocale([languagePreferenceViewModel.preferredLanguage], defaultLocale));
+        setLocale(resolveLocale([languagePreferenceViewModel.preferredLanguage], DefaultLocale));
 
       return () => {
         window.onlanguagechange = null;
@@ -68,7 +68,7 @@ export function LocaleProvider({ children }: PropsWithChildren<ILocaleProviderPr
     return null;
 
   return (
-    <IntlProvider locale={loadedLocale.id} messages={loadedLocale.messages} defaultLocale={defaultLocale}>
+    <IntlProvider locale={loadedLocale.id} messages={loadedLocale.messages} defaultLocale={DefaultLocale}>
       {children}
     </IntlProvider>
   );

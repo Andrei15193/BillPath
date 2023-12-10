@@ -1,4 +1,5 @@
 import { Caption1, Divider, makeResetStyles, shorthands, tokens } from "@fluentui/react-components";
+import { FormattedMessage } from "react-intl";
 
 const useAppFooterClassName = makeResetStyles({
   ...shorthands.margin(tokens.spacingVerticalS, tokens.spacingVerticalXL)
@@ -11,7 +12,7 @@ export function AppFooter(): JSX.Element {
     <div>
       <Divider />
       <Caption1 block align="center" className={appFooterClassName}>
-        BillPath &copy; {new Date().getFullYear()} Andrei15193
+        <FormattedMessage defaultMessage="BillPath &copy; {year} Andrei15193" description="Copyright notice" values={{ year: new Date().getFullYear() }} />
       </Caption1>
     </div>
   );
