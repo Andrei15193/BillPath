@@ -4,6 +4,8 @@ import CopyWebpackPlugin from "copy-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { transform } from "@formatjs/ts-transformer";
+import { ExtractMessagesPlugin } from "./webpack/ExtractMessagesPlugin";
 
 const indexOfModeCommandLineArgument = process.argv.lastIndexOf("--mode");
 const isProduction = (indexOfModeCommandLineArgument >= 0)
@@ -28,6 +30,8 @@ const reactDomPackageDirectoryPath = path.resolve(__dirname, "node_modules", "re
 const reactDomBundleFilePath = path.resolve(reactDomPackageDirectoryPath, "umd", reactDomBundleFileName);
 const reactDomVersion = JSON.parse(fs.readFileSync(path.resolve(reactDomPackageDirectoryPath, "package.json")).toString()).version;
 
+const extractMessagesPlugin = new ExtractMessagesPlugin();
+
 export default {
   entry: {
     billpath: "./index"
@@ -45,6 +49,7 @@ export default {
     errorDetails: true
   },
   plugins: [
+    extractMessagesPlugin,
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin({
       patterns: [
@@ -65,7 +70,7 @@ export default {
         },
         "Content-Security-Policy": {
           "http-equiv": "Content-Security-Policy",
-          "content": "script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; default-src 'none'"
+          "content": `script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self';${isProduction ? "" : " connect-src 'self';"} default-src 'none'`
         },
         "Cache-Control": {
           "http-equiv": "Cache-Control",
@@ -104,7 +109,26 @@ export default {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: "ts-loader"
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              getCustomTransformers() {
+                return {
+                  before: [
+                    transform({
+                      overrideIdFn: "[sha512:contenthash:base64:6]",
+                      removeDefaultMessage: isProduction,
+                      onMsgExtracted(filePath, messageDescriptors) {
+                        messageDescriptors.forEach(messageDescriptor => extractMessagesPlugin.add(messageDescriptor));
+                      }
+                    })
+                  ]
+                }
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.css$/,
@@ -130,7 +154,7 @@ export default {
   },
   devServer: {
     headers: {
-      "Content-Security-Policy": "script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; default-src 'none'",
+      "Content-Security-Policy": "script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; default-src 'none'",
       "Cache-Control": "no-cache, no-store, must-revalidate",
       "Pragma": "no-cache",
       "Expires": "0"
@@ -142,5 +166,8 @@ export default {
     port: 8000,
     compress: true,
     open: true
+  },
+  watchOptions: {
+    ignored: /(node_modules|locale)/
   }
-};
+}

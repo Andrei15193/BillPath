@@ -2,7 +2,7 @@
   --billpath---color-accent: rgb(251 115 116)
 }
 
-@keyframes billpath-loading-animation {
+@keyframes billpath-loader-active-animation {
   0% {
     opacity: 1;
   }
@@ -12,31 +12,45 @@
   }
 }
 
-html>body>div#billpath {
+#overlay-loader {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: stretch;
-
-  height: 100vh;
-}
-
-html>body>div#billpath>*:first-child {
-  flex: 1 1 auto;
-}
-
-html>body>div#billpath.loading {
-  animation-name: billpath-loading-animation;
-  animation-duration: 1s;
-  animation-timing-function: ease-in;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-
   align-items: center;
   justify-content: center;
+
+  height: 100vh;
+  width: 100vw;
 
   font-size: 30rem;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
   color: var(--billpath---color-accent);
+  background-color: white;
+  opacity: 0;
+
+  transition: opacity .3s ease-in-out;
+}
+
+#overlay-loader::after {
+  content: "BP";
+
+  animation-name: billpath-loader-active-animation;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#overlay-loader.active {
+  pointer-events: initial;
+  opacity: 1;
+}
+
+#overlay-loader.no-animation::after {
+  animation: none;
 }

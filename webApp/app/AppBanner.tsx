@@ -1,9 +1,10 @@
 import { Card, CardFooter, CardHeader, CardPreview, Display, makeResetStyles, makeStyles, mergeClasses, shorthands, tokens } from "@fluentui/react-components";
 import banner from "../assets/banner.png";
-import { useMediaBrekpointClasses } from "./styles";
+import { useMediaBrekpointClasses } from "../common/theme/styles";
 
 const useAppBannerClasses = makeStyles({
   cardClassName: {
+    ...shorthands.flex(0, 0, "auto"),
     ...shorthands.margin(tokens.spacingVerticalXL, tokens.spacingVerticalXL, 0)
   },
   cardPreviewClassName: {

@@ -24,6 +24,8 @@
   "scripts": {
     "dev": "webpack serve --mode development",
     "release": "webpack --mode production",
+    "extract": "formatjs extract **/*.ts* --ignore=node_modules --ignore=**/*.d.ts --out-file translations/en-US.json --id-interpolation-pattern [sha512:contenthash:base64:6]",
+    "compile-i18n": "formatjs compile-folder i18n locale",
     "test": "jest"
   },
   "dependencies": {
@@ -31,9 +33,16 @@
     "@fluentui/react-icons": "^2.0.223",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-intl": "^6.5.5",
+    "react-model-view-viewmodel": "^2.2.0",
     "reset-css": "^5.0.2"
   },
   "devDependencies": {
+    "@formatjs/cli": "^6.2.4",
+    "@formatjs/ts-transformer": "^3.13.9",
+    "@stylistic/eslint-plugin": "^1.5.0",
+    "@stylistic/eslint-plugin-jsx": "^1.5.0",
+    "@stylistic/eslint-plugin-ts": "^1.5.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.10",

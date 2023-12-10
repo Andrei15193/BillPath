@@ -6,14 +6,14 @@
   ],
   "plugins": [
     "import",
-    "react"
+    "react",
+    "@stylistic",
+    "@stylistic/ts",
+    "@stylistic/jsx"
   ],
   "rules": {
     "no-console": [
       "warn"
-    ],
-    "no-trailing-spaces": [
-      "error"
     ],
     "import/order": [
       "error",
@@ -30,24 +30,31 @@
         ]
       }
     ],
+    "@stylistic/no-trailing-spaces": [
+      "error"
+    ],
     "indent": [
       "error",
       2
     ],
-    "no-duplicate-imports": [
-      "error"
-    ],
-    "quotes": [
+    "@stylistic/indent": [
       "error",
-      "double"
+      2
     ],
-    "react/jsx-indent": [
+    "@stylistic/jsx/jsx-indent": [
       "error",
       2,
       {
         "checkAttributes": true,
         "indentLogicalExpressions": true
       }
+    ],
+    "no-duplicate-imports": [
+      "error"
+    ],
+    "@stylistic/quotes": [
+      "error",
+      "double"
     ],
     "react/forbid-dom-props": [
       "error",

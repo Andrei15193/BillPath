@@ -1,0 +1,1 @@
+export { type IThemeProviderProps, ThemeProvider } from "./ThemeProvider";
