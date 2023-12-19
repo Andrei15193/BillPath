@@ -56,6 +56,10 @@ What I also like about this is that we can configure ESlint rules so we can enfo
 
 This is a change in the usuall approach I have about this, but I really like and the tooling to keep everything up to date is great. One of the best things is removal of translation keys that are no longer used, it's always a gamble when we manually manage them as sometimes we get translation keys from the API and we do not know whether we can safely remove them or not so we just keep them around.
 
+Something to keep in mind is that Webpack uses caches when runnign the dev server and probably when having a watch build, for good reason. The side effect of this is that not all files will go through the loaders as their compilation result is cached thus **not all** messages will be caught in a rebuild.
+
+I've worked around this by keeping the extra messages and having them removed during normal builds. This is not a big problem if messages stick around for longer in the repository as they will be removed during the release build.
+
 ## Cost Tracking
 
 As part of the project, I want to keep track of monthly costs and maybe show them on the dashboard along side latest commits, last month's hosting cost for release environment and development costs and so on. It may be useful if I want to setup donations so it is clear how much of the donations are covering the hosting and other associated costs.

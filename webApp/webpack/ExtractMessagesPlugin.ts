@@ -4,13 +4,22 @@ import { exec, execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
+export interface IExtractMessagesPluginOptions {
+  readonly removeExtraMessages?: boolean;
+}
+
 export class ExtractMessagesPlugin implements WebpackPluginInstance {
   private static readonly _defaultLocale = "en-US";
   private static readonly _supportedLocales: readonly string[] = [
     "en-US",
     "ro-RO"
   ];
+  private readonly _options: IExtractMessagesPluginOptions
   private readonly _extractedMessages = new Map<string, Omit<MessageDescriptor, "id">>();
+
+  public constructor(options: IExtractMessagesPluginOptions = {}) {
+    this._options = options;
+  }
 
   public apply(compiler: Compiler): void {
     compiler.hooks.environment.tap("compile-i18n", () => this._compileI18n());
@@ -54,14 +63,16 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
   }
 
   private async _processMessagesAsync(overwrite: boolean, messagesFilePath: string, locale: string): Promise<void> {
+    const { removeExtraMessages = false } = this._options;
     const messages = await this._loadMessagesAsync(messagesFilePath);
 
-    Object
-      .getOwnPropertyNames(messages)
-      .forEach(messageId => {
-        if (!this._extractedMessages.has(messageId))
-          delete messages[messageId];
-      });
+    if (removeExtraMessages)
+      Object
+        .getOwnPropertyNames(messages)
+        .forEach(messageId => {
+          if (!this._extractedMessages.has(messageId))
+            delete messages[messageId];
+        });
 
     if (overwrite)
       this._extractedMessages.forEach((messageDescriptor, messageId) => {

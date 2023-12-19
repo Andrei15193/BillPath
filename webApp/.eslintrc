@@ -72,10 +72,6 @@
     "@stylistic/no-trailing-spaces": [
       "error"
     ],
-    "indent": [
-      "error",
-      2
-    ],
     "@stylistic/indent": [
       "error",
       2

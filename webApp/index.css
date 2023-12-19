@@ -1,7 +1,3 @@
-:root {
-  --billpath---color-accent: rgb(251 115 116)
-}
-
 @keyframes billpath-loader-active-animation {
   0% {
     opacity: 1;
@@ -13,6 +9,8 @@
 }
 
 #overlay-loader {
+  --billpath---color-accent: rgb(230 95 105);
+
   pointer-events: none;
 
   position: absolute;
@@ -30,13 +28,12 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
   color: var(--billpath---color-accent);
-  background-color: white;
   opacity: 0;
 
-  transition: opacity .3s ease-in-out;
+  transition: opacity .3s ease-in-out, background-color .7s ease-in-out .2s;
 }
 
-#overlay-loader::after {
+#overlay-loader.animated::after {
   content: "BP";
 
   animation-name: billpath-loader-active-animation;
@@ -51,6 +48,10 @@
   opacity: 1;
 }
 
-#overlay-loader.no-animation::after {
-  animation: none;
+#overlay-loader.light {
+  background-color: rgb(255 255 255);
+}
+
+#overlay-loader.dark {
+  background-color: rgb(41 41 41);
 }

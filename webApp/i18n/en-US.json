@@ -7,6 +7,10 @@
     "defaultMessage": "BillPath © {year} Andrei15193",
     "description": "Copyright notice"
   },
+  "p31Ozz": {
+    "defaultMessage": "Dark",
+    "description": "Dark theme name in theme select dropdown."
+  },
   "ykfHOy": {
     "defaultMessage": "Expenses",
     "description": "Expenses list view title."
@@ -14,6 +18,14 @@
   "/si1Xg": {
     "defaultMessage": "Language",
     "description": "The select label for the language picker."
+  },
+  "wxcfc9": {
+    "defaultMessage": "Light",
+    "description": "Light theme name in theme select dropdown."
+  },
+  "PiUxYv": {
+    "defaultMessage": "Theme",
+    "description": "The select label for the theme picker."
   },
   "BvkEny": {
     "defaultMessage": "Web Browser Prefernece",

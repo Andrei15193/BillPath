@@ -7,10 +7,10 @@ export interface IWebAppProps {
 
 export function WebApp(props: IWebAppProps): JSX.Element {
   return (
-    <LocaleProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <LocaleProvider>
         <App />
-      </ThemeProvider>
-    </LocaleProvider>
+      </LocaleProvider>
+    </ThemeProvider>
   );
 }

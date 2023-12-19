@@ -1,5 +1,7 @@
 export class FakePromise<TResult = void> implements Promise<TResult> {
-  private _finished: boolean = false;
+  private _completed: boolean = false;
+  private _resolved: boolean = false;
+  private _rejected: boolean = false;
   private _resolve: ((value: TResult | PromiseLike<TResult>) => void) | null = null;
   private _reject: ((reason?: any) => void) | null = null;
   private readonly _promise: Promise<TResult>;
@@ -11,16 +13,30 @@ export class FakePromise<TResult = void> implements Promise<TResult> {
     });
   }
 
+  public get completed(): boolean {
+    return this._completed;
+  }
+
+  public get resolved(): boolean {
+    return this._resolved;
+  }
+
+  public get rejected(): boolean {
+    return this._rejected;
+  }
+
   public resolve(value: TResult | PromiseLike<TResult>): void {
-    if (!this._finished) {
-      this._finished  = true;
+    if (!this._completed) {
+      this._completed  = true;
+      this._resolved = true;
       this._resolve!(value);
     }
   }
 
   public reject(reason?: any): void {
-    if (!this._finished) {
-      this._finished = true;
+    if (!this._completed) {
+      this._completed = true;
+      this._rejected = true;
       this!._reject!(reason);
     }
   }

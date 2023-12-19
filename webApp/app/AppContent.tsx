@@ -3,6 +3,7 @@ import { FormattedMessage } from "react-intl";
 import { useViewModel } from "react-model-view-viewmodel";
 import { useContentClassNames } from "../common/theme/styles";
 import { useLanguagePreferenceViewModel } from "../common/locale";
+import { AppTheme, useAppThemeViewModel } from "../common/theme";
 
 const useAppContentClassName = makeResetStyles({
   ...shorthands.flex(1, 1, "auto")
@@ -14,6 +15,9 @@ export function AppContent(): JSX.Element {
 
   const languagePreferenceViewModel = useLanguagePreferenceViewModel();
   useViewModel(languagePreferenceViewModel);
+
+  const appThemeViewModel = useAppThemeViewModel();
+  useViewModel(appThemeViewModel);
 
   return (
     <div className={mergeClasses(marginContentClassName, appContentClassName)}>
@@ -40,6 +44,21 @@ export function AppContent(): JSX.Element {
             </option>
           ))
         }
+      </Select>
+
+      <label htmlFor="theme-select">
+        <FormattedMessage defaultMessage="Theme" description="The select label for the theme picker." />
+      </label>
+      <Select
+        id="theme-select"
+        value={appThemeViewModel.appTheme}
+        onChange={(event, { value }) => { appThemeViewModel.appTheme = value as AppTheme }}>
+        <option value={AppTheme.light}>
+          <FormattedMessage defaultMessage="Light" description="Light theme name in theme select dropdown." />
+        </option>
+        <option value={AppTheme.dark}>
+          <FormattedMessage defaultMessage="Dark" description="Dark theme name in theme select dropdown." />
+        </option>
       </Select>
     </div>
   );

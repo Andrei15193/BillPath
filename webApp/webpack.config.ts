@@ -3,6 +3,7 @@ import fs from "fs";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import CspHtmlWebpackPlugin from "csp-html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { transform } from "@formatjs/ts-transformer";
 import { ExtractMessagesPlugin } from "./webpack/ExtractMessagesPlugin";
@@ -11,6 +12,12 @@ const indexOfModeCommandLineArgument = process.argv.lastIndexOf("--mode");
 const isProduction = (indexOfModeCommandLineArgument >= 0)
   && ((indexOfModeCommandLineArgument + 1) < process.argv.length)
   && ("production".localeCompare(process.argv[indexOfModeCommandLineArgument + 1], "en-US", { sensitivity: "base" }) === 0)
+
+const indexOfServeCommandLineArgument = process.argv.lastIndexOf("serve");
+const isDevServer = (indexOfServeCommandLineArgument >= 0);
+
+const indexOfWatchCommandLineArgument = process.argv.lastIndexOf("--watch");
+const isWatchBuild = (indexOfWatchCommandLineArgument >= 0);
 
 const faviconFileName = "favicon.ico"
 const faviconFilePath = path.resolve(__dirname, faviconFileName);
@@ -30,7 +37,9 @@ const reactDomPackageDirectoryPath = path.resolve(__dirname, "node_modules", "re
 const reactDomBundleFilePath = path.resolve(reactDomPackageDirectoryPath, "umd", reactDomBundleFileName);
 const reactDomVersion = JSON.parse(fs.readFileSync(path.resolve(reactDomPackageDirectoryPath, "package.json")).toString()).version;
 
-const extractMessagesPlugin = new ExtractMessagesPlugin();
+const extractMessagesPlugin = new ExtractMessagesPlugin({
+  removeExtraMessages: !isDevServer  && !isWatchBuild
+});
 
 export default {
   entry: {
@@ -63,14 +72,10 @@ export default {
       title: "BillPath",
       favicon: faviconFileName,
       meta: {
-        charset: "utf-8",
+        "charset": "utf-8",
         "Content-Type": {
           "http-equiv": "Content-Type",
           "content": "text/html; charset=utf-8"
-        },
-        "Content-Security-Policy": {
-          "http-equiv": "Content-Security-Policy",
-          "content": `script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self';${isProduction ? "" : " connect-src 'self';"} default-src 'none'`
         },
         "Cache-Control": {
           "http-equiv": "Cache-Control",
@@ -84,6 +89,26 @@ export default {
           "http-equiv": "Expires",
           "content": "0"
         }
+      },
+      cspPlugin: {
+        enabled: true,
+        policy: {
+          "base-uri": "'self'",
+          "default-src": "'none'",
+          "img-src": "'self'",
+          "object-src": "'none'",
+          "script-src": "'strict-dynamic'",
+          "style-src": ["'self'", "'unsafe-inline'"],
+          ...(isProduction ? {} : { "connect-src":  isProduction ? ["'none'"] : ["'self'"] })
+        },
+        hashEnabled: {
+          "script-src": true,
+          "style-src": false
+        },
+        nonceEnabled: {
+          "script-src": true,
+          "style-src": false
+        },
       },
       hash: true,
       scriptLoading: "blocking",
@@ -103,6 +128,7 @@ export default {
         }
       }
     }),
+    new CspHtmlWebpackPlugin(),
   ],
   module: {
     rules: [
@@ -154,7 +180,6 @@ export default {
   },
   devServer: {
     headers: {
-      "Content-Security-Policy": "script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; default-src 'none'",
       "Cache-Control": "no-cache, no-store, must-revalidate",
       "Pragma": "no-cache",
       "Expires": "0"

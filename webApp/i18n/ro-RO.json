@@ -11,12 +11,24 @@
     "defaultMessage": "Cheltuieli",
     "description": "Expenses list view title."
   },
+  "p31Ozz": {
+    "defaultMessage": "Întunecat",
+    "description": "Dark theme name in theme select dropdown."
+  },
   "/si1Xg": {
     "defaultMessage": "Limbă",
     "description": "The select label for the language picker."
   },
+  "wxcfc9": {
+    "defaultMessage": "Luminos",
+    "description": "Light theme name in theme select dropdown."
+  },
   "BvkEny": {
     "defaultMessage": "Preferinţa din Browserul Web",
     "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
+  },
+  "PiUxYv": {
+    "defaultMessage": "Temă",
+    "description": "The select label for the theme picker."
   }
 }
