@@ -111,7 +111,6 @@ export default {
         },
       },
       hash: true,
-      scriptLoading: "blocking",
       template: path.resolve(__dirname, "index.html"),
       templateParameters: {
         resetCss: {

@@ -1,6 +1,6 @@
 import type { IOverlayLoader } from "./IOverlayLoader";
 import { FakePromise } from "../promises";
-import { AppTheme, mapAppTheme } from "../theme";
+import { AppTheme } from "../theme";
 
 /**
  * Estimated animation duration, these do not have to match CSS animation length.
@@ -39,8 +39,7 @@ export class OverlayLoader implements IOverlayLoader {
     this._hidePromise.resolve();
     this._resolveHidePromiseTimeout = null;
 
-    const storedTheme = localStorage.getItem("preferrences/theme");
-    this._appTheme = mapAppTheme(storedTheme);
+    this._appTheme = this._overlayLoaderElement.className.indexOf("dark") >= 0 ? AppTheme.dark : AppTheme.light;
     this._pendingAppTheme = null;
     this._appThemeSwitchPromise = new FakePromise<void>();
     this._appThemeSwitchPromise.resolve();

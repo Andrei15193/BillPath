@@ -1,4 +1,4 @@
-export { AppTheme, mapAppTheme } from "./AppTheme";
+export { AppTheme } from "./AppTheme";
 export { type IThemeProviderProps, ThemeProvider } from "./ThemeProvider";
 
 export type { IAppThemeViewModel } from "./IAppThemeViewModel"

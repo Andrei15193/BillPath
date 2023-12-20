@@ -3,13 +3,13 @@
 <head>
   <title><%= htmlWebpackPlugin.options.title %></title>
   <link href="<%= resetCss.bundleFileName %>?version=<%= resetCss.version %>" rel="stylesheet">
+  <script defer src="<%= react.bundleFileName %>?version=<%= react.version %>"></script>
+  <script defer src="<%= reactDom.bundleFileName %>?version=<%= reactDom.version %>"></script>
 </head>
 <body>
   <div id="billpath"></div>
   <div id="overlay-loader" class="active animated"></div>
 
-  <script>document.getElementById("overlay-loader").classList.add(localStorage.getItem("preferrences/theme") || "light")</script>
-  <script src="<%= react.bundleFileName %>?version=<%= react.version %>"></script>
-  <script src="<%= reactDom.bundleFileName %>?version=<%= reactDom.version %>"></script>
+  <script>document.getElementById("overlay-loader").classList.add(localStorage.getItem("preferrences/theme") || ((window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light") || "light")</script>
 </body>
 </html>

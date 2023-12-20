@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useState, useEffect } from "react";
+import { type PropsWithChildren, useState, useEffect, useCallback } from "react";
 import { type Theme, FluentProvider, makeResetStyles } from "@fluentui/react-components";
 import { useViewModel } from "react-model-view-viewmodel";
 import { useOverlayLoader } from "../overlayLoader";
@@ -24,21 +24,53 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
   const overlayLoader = useOverlayLoader();
 
   const appThemeViewModel = useAppThemeViewModel();
-  useViewModel(appThemeViewModel, ["appTheme"]);
+  useViewModel(appThemeViewModel, ["preferredTheme"]);
 
-  const [theme, setTheme] = useState(getFluentUiTheme(appThemeViewModel.appTheme));
+  const [theme, setTheme] = useState(getFluentUiTheme(overlayLoader.appTheme));
+
+  const changeThemeAsyncCallback = useCallback(
+    async (appTheme: AppTheme) => {
+      if (overlayLoader.appTheme !== appTheme) {
+        overlayLoader.appTheme = appTheme;
+        await overlayLoader.showAsync();
+
+        setTheme(getFluentUiTheme(appTheme));
+
+        await overlayLoader.hideAsync();
+      }
+    },
+    [overlayLoader, setTheme]
+  );
 
   useEffect(
     () => {
-      overlayLoader.appTheme = appThemeViewModel.appTheme;
-      overlayLoader
-        .showAsync()
-        .then(() => {
-          setTheme(getFluentUiTheme(appThemeViewModel.appTheme));
-          return overlayLoader.hideAsync();
-        });
+      const browserThemePreferenceThemeChanged = (event: MediaQueryListEvent) => {
+        if (appThemeViewModel.preferredTheme === null)
+          changeThemeAsyncCallback(event.matches ? AppTheme.dark : AppTheme.light);
+        else
+          changeThemeAsyncCallback(appThemeViewModel.preferredTheme);
+      }
+
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", browserThemePreferenceThemeChanged);
+
+      return () => {
+        window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", browserThemePreferenceThemeChanged);
+      };
     },
-    [appThemeViewModel.appTheme]
+    [changeThemeAsyncCallback]
+  );
+
+  useEffect(
+    () => {
+      changeThemeAsyncCallback(
+        appThemeViewModel.preferredTheme === null
+          ? (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ? AppTheme.dark
+            : AppTheme.light
+          : appThemeViewModel.preferredTheme
+      );
+    },
+    [appThemeViewModel.preferredTheme, changeThemeAsyncCallback]
   );
 
   return (
@@ -48,13 +80,12 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
   );
 }
 
-function getFluentUiTheme(appTheme: AppTheme | null): Partial<Theme> {
+function getFluentUiTheme(appTheme: AppTheme): Partial<Theme> {
   switch (appTheme) {
+    case AppTheme.light:
+      return billPathLightTheme;
+
     case AppTheme.dark:
       return billPathDarkTheme;
-
-    case AppTheme.light:
-    default:
-      return billPathLightTheme;
   }
 }

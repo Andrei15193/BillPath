@@ -30,5 +30,9 @@
   "BvkEny": {
     "defaultMessage": "Web Browser Prefernece",
     "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
+  },
+  "MHoUWH": {
+    "defaultMessage": "Web Browser Prefernece",
+    "description": "Default option for theme selection, the user can always go back to have the theme picked form their browser."
   }
 }

@@ -51,8 +51,11 @@ export function AppContent(): JSX.Element {
       </label>
       <Select
         id="theme-select"
-        value={appThemeViewModel.appTheme}
-        onChange={(event, { value }) => { appThemeViewModel.appTheme = value as AppTheme }}>
+        value={appThemeViewModel.preferredTheme || ""}
+        onChange={(event, { value }) => { appThemeViewModel.preferredTheme = value === "" ? null : value as AppTheme }}>
+        <option value="">
+          <FormattedMessage defaultMessage="Web Browser Prefernece"  description="Default option for theme selection, the user can always go back to have the theme picked form their browser." />
+        </option>
         <option value={AppTheme.light}>
           <FormattedMessage defaultMessage="Light" description="Light theme name in theme select dropdown." />
         </option>

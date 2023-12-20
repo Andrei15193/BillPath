@@ -27,6 +27,10 @@
     "defaultMessage": "Preferinţa din Browserul Web",
     "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
   },
+  "MHoUWH": {
+    "defaultMessage": "Preferinţa din Browserul Web",
+    "description": "Default option for theme selection, the user can always go back to have the theme picked form their browser."
+  },
   "PiUxYv": {
     "defaultMessage": "Temă",
     "description": "The select label for the theme picker."
