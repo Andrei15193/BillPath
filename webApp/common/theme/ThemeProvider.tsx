@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useState, useEffect, useCallback } from "react";
+import { type PropsWithChildren, useState, useEffect, useCallback, useMemo } from "react";
 import { type Theme, FluentProvider, makeResetStyles } from "@fluentui/react-components";
 import { useViewModel } from "react-model-view-viewmodel";
 import { useOverlayLoader } from "../overlayLoader";
@@ -26,6 +26,11 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
   const appThemeViewModel = useAppThemeViewModel();
   useViewModel(appThemeViewModel, ["preferredTheme"]);
 
+  const browserThemeMediaQuery = useMemo(
+    () => !window.matchMedia ? null : window.matchMedia("(prefers-color-scheme: dark)"),
+    []
+  );
+
   const [theme, setTheme] = useState(getFluentUiTheme(overlayLoader.appTheme));
 
   const changeThemeAsyncCallback = useCallback(
@@ -44,33 +49,32 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
 
   useEffect(
     () => {
-      const browserThemePreferenceThemeChanged = (event: MediaQueryListEvent) => {
-        if (appThemeViewModel.preferredTheme === null)
+      if (browserThemeMediaQuery !== null && appThemeViewModel.preferredTheme === null) {
+        const browserThemePreferenceThemeChanged = (event: MediaQueryListEvent) => {
           changeThemeAsyncCallback(event.matches ? AppTheme.dark : AppTheme.light);
-        else
-          changeThemeAsyncCallback(appThemeViewModel.preferredTheme);
+        }
+
+        browserThemeMediaQuery.addEventListener("change", browserThemePreferenceThemeChanged);
+
+        return () => {
+          browserThemeMediaQuery.removeEventListener("change", browserThemePreferenceThemeChanged);
+        };
       }
-
-      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", browserThemePreferenceThemeChanged);
-
-      return () => {
-        window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", browserThemePreferenceThemeChanged);
-      };
     },
-    [changeThemeAsyncCallback]
+    [appThemeViewModel.preferredTheme, browserThemeMediaQuery, changeThemeAsyncCallback]
   );
 
   useEffect(
     () => {
       changeThemeAsyncCallback(
         appThemeViewModel.preferredTheme === null
-          ? (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)
+          ? (browserThemeMediaQuery !== null && browserThemeMediaQuery.matches)
             ? AppTheme.dark
             : AppTheme.light
           : appThemeViewModel.preferredTheme
       );
     },
-    [appThemeViewModel.preferredTheme, changeThemeAsyncCallback]
+    [appThemeViewModel.preferredTheme, browserThemeMediaQuery, changeThemeAsyncCallback]
   );
 
   return (
