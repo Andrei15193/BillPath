@@ -1,16 +1,16 @@
 import type { ILocale } from "./ILocale";
-import type { ILanguagePreferenceViewModel } from "./ILanguagePreferenceViewModel";
+import type { IUserPreferencesStore } from "../../data/userPreferences/IUserPreferencesStore";
+import type { ICoreDependencies } from "../dependencies";
 import { ViewModel } from "react-model-view-viewmodel";
 import { SupportedLocales } from "./SupportedLocales";
 
-export class LanguagePreferenceViewModel extends ViewModel implements ILanguagePreferenceViewModel {
-  private static readonly _preferredLanguageStorageKey: string = "preferrences/language";
-  private _preferredLanguage: string | null;
+export class LanguagePreferenceViewModel extends ViewModel {
+  private readonly _userPreferencesStore: IUserPreferencesStore;
 
-  public constructor() {
+  public constructor({ userPreferencesStore }: ICoreDependencies) {
     super();
 
-    this._preferredLanguage = localStorage.getItem(LanguagePreferenceViewModel._preferredLanguageStorageKey);
+    this._userPreferencesStore = userPreferencesStore;
     this.supportedLocales = Object
       .getOwnPropertyNames(SupportedLocales)
       .map(language => SupportedLocales[language])
@@ -19,17 +19,12 @@ export class LanguagePreferenceViewModel extends ViewModel implements ILanguageP
   }
 
   public get preferredLanguage(): string | null {
-    return this._preferredLanguage;
+    return this._userPreferencesStore.language;
   }
 
   public set preferredLanguage(value: string | null) {
-    if (this._preferredLanguage !== value) {
-      if (value === null)
-        localStorage.removeItem(LanguagePreferenceViewModel._preferredLanguageStorageKey);
-      else
-        localStorage.setItem(LanguagePreferenceViewModel._preferredLanguageStorageKey, value);
-
-      this._preferredLanguage = value;
+    if (this._userPreferencesStore.language !== value) {
+      this._userPreferencesStore.language = value;
       this.notifyPropertiesChanged("preferredLanguage");
     }
   }

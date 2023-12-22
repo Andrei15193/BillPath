@@ -2,8 +2,10 @@ import { Select, Title1, makeResetStyles, mergeClasses, shorthands } from "@flue
 import { FormattedMessage } from "react-intl";
 import { useViewModel } from "react-model-view-viewmodel";
 import { useContentClassNames } from "../common/theme/styles";
-import { useLanguagePreferenceViewModel } from "../common/locale";
-import { AppTheme, useAppThemeViewModel } from "../common/theme";
+import { AppTheme } from "../common/theme";
+import { useDependency } from "../common/dependencies";
+import { LanguagePreferenceViewModel } from "../common/locale/LanguagePreferenceViewModel";
+import { AppThemeViewModel } from "../common/theme/AppThemeViewModel";
 
 const useAppContentClassName = makeResetStyles({
   ...shorthands.flex(1, 1, "auto")
@@ -13,10 +15,10 @@ export function AppContent(): JSX.Element {
   const { marginContentClassName } = useContentClassNames();
   const appContentClassName = useAppContentClassName();
 
-  const languagePreferenceViewModel = useLanguagePreferenceViewModel();
+  const languagePreferenceViewModel = useDependency(LanguagePreferenceViewModel);
   useViewModel(languagePreferenceViewModel);
 
-  const appThemeViewModel = useAppThemeViewModel();
+  const appThemeViewModel = useDependency(AppThemeViewModel);
   useViewModel(appThemeViewModel);
 
   return (

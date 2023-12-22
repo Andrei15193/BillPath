@@ -1,10 +1,10 @@
 import { type PropsWithChildren, useState, useEffect, useCallback, useMemo } from "react";
 import { type Theme, FluentProvider, makeResetStyles } from "@fluentui/react-components";
-import { useViewModel } from "react-model-view-viewmodel";
 import { useOverlayLoader } from "../overlayLoader";
+import { useViewModelDependency } from "../dependencies";
 import { billPathLightTheme, billPathDarkTheme } from "./Theme";
-import { useAppThemeViewModel } from "./useAppThemeViewModel";
 import { AppTheme } from "./AppTheme";
+import { AppThemeViewModel } from "./AppThemeViewModel";
 
 const useThemeProviderClassName = makeResetStyles({
   display: "flex",
@@ -23,8 +23,7 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
   const themeProviderClassName = useThemeProviderClassName();
   const overlayLoader = useOverlayLoader();
 
-  const appThemeViewModel = useAppThemeViewModel();
-  useViewModel(appThemeViewModel, ["preferredTheme"]);
+  const appThemeViewModel = useViewModelDependency(AppThemeViewModel, ["preferredTheme"]);
 
   const browserThemeMediaQuery = useMemo(
     () => !window.matchMedia ? null : window.matchMedia("(prefers-color-scheme: dark)"),

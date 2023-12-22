@@ -10,6 +10,6 @@
   <div id="billpath"></div>
   <div id="overlay-loader" class="active animated"></div>
 
-  <script>document.getElementById("overlay-loader").classList.add(localStorage.getItem("preferrences/theme") || ((window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light") || "light")</script>
+  <script>document.getElementById("overlay-loader").classList.add((localStorage.getItem("preferences/theme") === "light-theme") ? "light" : (localStorage.getItem("preferences/theme") === "dark-theme" || (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches)) ? "dark" : "light");</script>
 </body>
 </html>

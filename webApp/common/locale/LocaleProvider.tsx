@@ -1,10 +1,10 @@
 import type { I18nMessages, ILocale } from "./ILocale";
 import { type PropsWithChildren, useEffect, useState } from "react";
 import { IntlProvider } from "react-intl";
-import { useViewModel } from "react-model-view-viewmodel";
 import { useOverlayLoader } from "../overlayLoader";
-import { useLanguagePreferenceViewModel } from "./useLanguagePreferenceViewModel";
+import { useViewModelDependency } from "../dependencies";
 import { resolveLocale } from "./resolveLocale";
+import { LanguagePreferenceViewModel } from "./LanguagePreferenceViewModel";
 
 export const DefaultLocale = "en-US";
 
@@ -17,8 +17,7 @@ export interface ILocaleProviderProps {
 }
 
 export function LocaleProvider({ children }: PropsWithChildren<ILocaleProviderProps>): JSX.Element | null {
-  const languagePreferenceViewModel = useLanguagePreferenceViewModel();
-  useViewModel(languagePreferenceViewModel);
+  const languagePreferenceViewModel = useViewModelDependency(LanguagePreferenceViewModel, ["preferredLanguage"]);
 
   const overlayLoader = useOverlayLoader();
 
