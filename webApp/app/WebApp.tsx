@@ -1,19 +1,16 @@
-import { DependencyContainer, DependencyContainerProvider, ICoreDependencies } from "../common/dependencies";
-import { LanguagePreferenceViewModel, LocaleProvider } from "../common/locale";
-import { AppThemeViewModel, ThemeProvider } from "../common/theme";
+import { DependencyContainerProvider } from "../common/dependencies";
+import { LocaleProvider } from "../common/locale";
+import { ThemeProvider } from "../common/theme";
 import { LocalStorageUserPreferencesStorage } from "../data/userPreferences/LocalStorageUserPreferencesStore";
 import { App } from "./App";
+import { AppDependencyContainer } from "./AppDependencyContainer";
 
 export interface IWebAppProps {
 }
 
-const coreDependencies: ICoreDependencies = {
+const dependencyContainer = new AppDependencyContainer({
   userPreferencesStore: new LocalStorageUserPreferencesStorage()
-};
-
-const dependencyContainer = new DependencyContainer(coreDependencies)
-  .registerSingleton(AppThemeViewModel)
-  .registerSingleton(LanguagePreferenceViewModel);
+});
 
 export function WebApp(props: IWebAppProps): JSX.Element {
   return (
