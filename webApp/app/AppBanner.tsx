@@ -44,7 +44,7 @@ const useAppBannerContentClassName = makeResetStyles({
   backgroundPositionX: "center",
   backgroundPositionY: "center",
 
-  color: "rgb(255 255 255)"
+  color: tokens.colorNeutralForegroundInverted
 });
 
 function AppBannerContent(): JSX.Element {

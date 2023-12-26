@@ -1,9 +1,8 @@
 import type { IUserPreferencesStore } from "./IUserPreferencesStore";
-import type { IInitializable } from "../IInitializable";
 import { AppTheme } from "../../common/theme";
 
-export class LocalStorageUserPreferencesStorage implements IUserPreferencesStore, IInitializable {
-  public get appTheme(): AppTheme | null {
+export class LocalStorageUserPreferencesStorage implements IUserPreferencesStore {
+  get appTheme(): AppTheme | null {
     switch (localStorage.getItem("preferences/theme")) {
       case "light-theme":
         return AppTheme.light;
@@ -16,7 +15,7 @@ export class LocalStorageUserPreferencesStorage implements IUserPreferencesStore
     }
   }
 
-  public set appTheme(value: AppTheme | null) {
+  set appTheme(value: AppTheme | null) {
     switch (value) {
       case AppTheme.light:
         localStorage.setItem("preferences/theme", "light-theme");
@@ -32,17 +31,14 @@ export class LocalStorageUserPreferencesStorage implements IUserPreferencesStore
     }
   }
 
-  public get language(): string | null {
+  get language(): string | null {
     return localStorage.getItem("preferences/language");
   }
 
-  public set language(value: string | null) {
+  set language(value: string | null) {
     if (value === null || value === undefined)
       localStorage.removeItem("preferences/language");
     else
       localStorage.setItem("preferences/language", value);
-  }
-
-  public initializeAsync(): void {
   }
 }
