@@ -13,12 +13,6 @@ const isProduction = (indexOfModeCommandLineArgument >= 0)
   && ((indexOfModeCommandLineArgument + 1) < process.argv.length)
   && ("production".localeCompare(process.argv[indexOfModeCommandLineArgument + 1], "en-US", { sensitivity: "base" }) === 0)
 
-const indexOfServeCommandLineArgument = process.argv.lastIndexOf("serve");
-const isDevServer = (indexOfServeCommandLineArgument >= 0);
-
-const indexOfWatchCommandLineArgument = process.argv.lastIndexOf("--watch");
-const isWatchBuild = (indexOfWatchCommandLineArgument >= 0);
-
 const faviconFileName = "favicon.ico"
 const faviconFilePath = path.resolve(__dirname, faviconFileName);
 
@@ -37,9 +31,7 @@ const reactDomPackageDirectoryPath = path.resolve(__dirname, "node_modules", "re
 const reactDomBundleFilePath = path.resolve(reactDomPackageDirectoryPath, "umd", reactDomBundleFileName);
 const reactDomVersion = JSON.parse(fs.readFileSync(path.resolve(reactDomPackageDirectoryPath, "package.json")).toString()).version;
 
-const extractMessagesPlugin = new ExtractMessagesPlugin({
-  removeExtraMessages: !isDevServer  && !isWatchBuild
-});
+const extractMessagesPlugin = new ExtractMessagesPlugin();
 
 export default {
   entry: {
@@ -144,9 +136,7 @@ export default {
                     transform({
                       overrideIdFn: "[sha512:contenthash:base64:6]",
                       removeDefaultMessage: isProduction,
-                      onMsgExtracted(filePath, messageDescriptors) {
-                        messageDescriptors.forEach(messageDescriptor => extractMessagesPlugin.add(messageDescriptor));
-                      }
+                      onMsgExtracted: extractMessagesPlugin.onMessagesExtracted
                     })
                   ]
                 }

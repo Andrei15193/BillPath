@@ -4,8 +4,9 @@ import { exec, execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 
-export interface IExtractMessagesPluginOptions {
-  readonly removeExtraMessages?: boolean;
+interface IExtractedMessages {
+  shouldClear: boolean;
+  messages: MessageDescriptor[];
 }
 
 export class ExtractMessagesPlugin implements WebpackPluginInstance {
@@ -14,18 +15,16 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
     "en-US",
     "ro-RO"
   ];
-  private readonly _options: IExtractMessagesPluginOptions
   private readonly _extractedMessages = new Map<string, Omit<MessageDescriptor, "id">>();
-
-  public constructor(options: IExtractMessagesPluginOptions = {}) {
-    this._options = options;
-  }
+  private readonly _extracedMessagesPerFile = new Map<string, IExtractedMessages>();
 
   public apply(compiler: Compiler): void {
     compiler.hooks.environment.tap("compile-i18n", () => this._compileI18n());
 
-    compiler.hooks.beforeCompile.tap("clear-extracted-messages", () => {
-      this._extractedMessages.clear();
+    compiler.hooks.beforeCompile.tap("prepare-message-extraction", () => {
+      this._extracedMessagesPerFile.forEach(extractedMessages => {
+        extractedMessages.shouldClear = true;
+      });
     });
 
     compiler.hooks.afterEmit.tapPromise("generate-extracted-messages-async", async () => {
@@ -38,8 +37,27 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
     });
   }
 
-  public add({ id: messageId, ...messageDescriptor }: MessageDescriptor) {
-    this._extractedMessages.set(messageId!, messageDescriptor)
+  public readonly onMessagesExtracted = (filePath: string, messageDescriptors: readonly MessageDescriptor[]) => {
+    let extractedMessages = this._extracedMessagesPerFile.get(filePath);
+    if (extractedMessages === null || extractedMessages === undefined){
+      extractedMessages = {
+        shouldClear: false,
+        messages: []
+      };
+      this._extracedMessagesPerFile.set(filePath, extractedMessages);
+    }
+
+    if (extractedMessages.shouldClear) {
+      extractedMessages.messages.forEach(({ id: messageId }) => {
+        this._extractedMessages.delete(messageId!);
+      });
+      extractedMessages.messages = []
+    }
+
+    extractedMessages.messages.push(...messageDescriptors);
+    messageDescriptors.forEach(({ id: messageId, ...message }) => {
+      this._extractedMessages.set(messageId!, message);
+    });
   }
 
   private _compileI18n(): void {
@@ -63,16 +81,14 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
   }
 
   private async _processMessagesAsync(overwrite: boolean, messagesFilePath: string, locale: string): Promise<void> {
-    const { removeExtraMessages = false } = this._options;
     const messages = await this._loadMessagesAsync(messagesFilePath);
 
-    if (removeExtraMessages)
-      Object
-        .getOwnPropertyNames(messages)
-        .forEach(messageId => {
-          if (!this._extractedMessages.has(messageId))
-            delete messages[messageId];
-        });
+    Object
+      .getOwnPropertyNames(messages)
+      .forEach(messageId => {
+        if (!this._extractedMessages.has(messageId))
+          delete messages[messageId];
+      });
 
     if (overwrite)
       this._extractedMessages.forEach((messageDescriptor, messageId) => {

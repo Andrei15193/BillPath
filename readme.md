@@ -58,7 +58,7 @@ This is a change in the usuall approach I have about this, but I really like and
 
 Something to keep in mind is that Webpack uses caches when runnign the dev server and probably when having a watch build, for good reason. The side effect of this is that not all files will go through the loaders as their compilation result is cached thus **not all** messages will be caught in a rebuild.
 
-I've worked around this by keeping the extra messages and having them removed during normal builds. This is not a big problem if messages stick around for longer in the repository as they will be removed during the release build.
+I've worked around this by tracking extracted messges by file. When a compilation starts then messages for any file may be cleared, but the clear only happens for changed files as the loader provides both the file name and extracted message. If a file has been previously processed, i.e.: initial compilation, and it does not change, then the loader will not call the plugin callback for that file thus all already extracted messages remain the same.
 
 ## Cost Tracking
 
