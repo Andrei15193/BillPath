@@ -27,19 +27,21 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
       });
     });
 
-    compiler.hooks.afterEmit.tapPromise("generate-extracted-messages-async", async () => {
-      await Promise.all(
-        ExtractMessagesPlugin
-          ._supportedLocales
-          .map(localeId => this._processMessagesAsync(ExtractMessagesPlugin._defaultLocale === localeId , path.resolve("i18n", `${localeId}.json`), localeId))
-      );
-      await this._compileI18nAsync();
+    compiler.hooks.afterEmit.tapPromise("generate-extracted-messages-async", async (compilation) => {
+      if (compilation.errors.length === 0) {
+        await Promise.all(
+          ExtractMessagesPlugin
+            ._supportedLocales
+            .map(localeId => this._processMessagesAsync(ExtractMessagesPlugin._defaultLocale === localeId , path.resolve("i18n", `${localeId}.json`), localeId))
+        );
+        await this._compileI18nAsync();
+      }
     });
   }
 
   public readonly onMessagesExtracted = (filePath: string, messageDescriptors: readonly MessageDescriptor[]) => {
     let extractedMessages = this._extracedMessagesPerFile.get(filePath);
-    if (extractedMessages === null || extractedMessages === undefined){
+    if (extractedMessages === null || extractedMessages === undefined) {
       extractedMessages = {
         shouldClear: false,
         messages: []
@@ -48,10 +50,12 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
     }
 
     if (extractedMessages.shouldClear) {
+      extractedMessages.shouldClear = false;
+
       extractedMessages.messages.forEach(({ id: messageId }) => {
         this._extractedMessages.delete(messageId!);
       });
-      extractedMessages.messages = []
+      extractedMessages.messages = [];
     }
 
     extractedMessages.messages.push(...messageDescriptors);
@@ -111,7 +115,7 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
             if (err)
               reject(err);
             else
-              resolve(JSON.parse(data.toString()))
+              resolve(JSON.parse(data.toString()));
           });
         else
           resolve({});
