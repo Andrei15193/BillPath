@@ -8,5 +8,5 @@ test("definition test", () => {
 test("component test", () => {
   render(<TestApp />);
 
-  expect(screen.getByText("New User")).toHaveTextContent("New User");
+  expect(screen.getByText("New profile")).toHaveTextContent("New profile");
 });
