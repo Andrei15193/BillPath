@@ -51,7 +51,7 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
       if (browserThemeMediaQuery !== null && appThemeViewModel.preferredTheme === null) {
         const browserThemePreferenceThemeChanged = (event: MediaQueryListEvent) => {
           changeThemeAsyncCallback(event.matches ? AppTheme.dark : AppTheme.light);
-        }
+        };
 
         browserThemeMediaQuery.addEventListener("change", browserThemePreferenceThemeChanged);
 
@@ -77,8 +77,10 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
   );
 
   return (
-    <FluentProvider theme={theme} className={themeProviderClassName}>
-      {children}
+    <FluentProvider theme={theme}>
+      <div className={themeProviderClassName}>
+        {children}
+      </div>
     </FluentProvider>
   );
 }

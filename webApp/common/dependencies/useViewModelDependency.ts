@@ -1,4 +1,4 @@
-import type { Type } from "./IDependencyContainer";
+import type { Type } from "./IDependencyResolver";
 import { useViewModel, type INotifyPropertiesChanged } from "react-model-view-viewmodel";
 import { useDependency } from "./useDependency";
 

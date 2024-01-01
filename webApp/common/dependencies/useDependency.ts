@@ -1,15 +1,15 @@
-import type { Type } from "./IDependencyContainer";
+import type { Type } from "./IDependencyResolver";
 import { useContext, useMemo } from "react";
-import { DependencyContainerContext } from "./DependencyContainerContext";
+import { DependencyResolverContext } from "./DependencyResolverContext";
 
 export function useDependency<T>(type: Type<T>): T {
-  const dependencyContainer = useContext(DependencyContainerContext);
+  const dependencyResolver = useContext(DependencyResolverContext);
 
-  if (dependencyContainer === null || dependencyContainer === undefined)
+  if (dependencyResolver === null || dependencyResolver === undefined)
     throw new Error("Dependency container is not configured.");
 
   const instance = useMemo(
-    () => dependencyContainer.resolve(type),
+    () => dependencyResolver.resolve(type),
     [type]
   );
 

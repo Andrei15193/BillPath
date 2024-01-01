@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 
 const useAppFooterClassName = makeResetStyles({
   ...shorthands.margin(tokens.spacingVerticalS, tokens.spacingVerticalXL)
-})
+});
 
 export function AppFooter(): JSX.Element {
   const appFooterClassName = useAppFooterClassName();

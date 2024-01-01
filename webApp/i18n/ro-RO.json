@@ -1,7 +1,27 @@
 {
+  "jH1yZU": {
+    "defaultMessage": "Adaugă",
+    "description": "Add user profile button label."
+  },
+  "c+6PbD": {
+    "defaultMessage": "Add profile",
+    "description": "Add user profile form caption."
+  },
+  "QI118w": {
+    "defaultMessage": "Alege",
+    "description": "Select user profile."
+  },
+  "KS9p8u": {
+    "defaultMessage": "Anulează",
+    "description": "Cancel adding a user profile button label."
+  },
   "NHL8QP": {
     "defaultMessage": "BillPath",
     "description": "Application name on the header."
+  },
+  "qlFEqw": {
+    "defaultMessage": "BillPath",
+    "description": "Profile selection app title."
   },
   "2RVfeq": {
     "defaultMessage": "BillPath © {year} Andrei15193",
@@ -10,6 +30,10 @@
   "ykfHOy": {
     "defaultMessage": "Cheltuieli",
     "description": "Expenses list view title."
+  },
+  "h6DY+O": {
+    "defaultMessage": "Cine folosește aplicaţia?",
+    "description": "Profile selection caption."
   },
   "p31Ozz": {
     "defaultMessage": "Întunecat",
@@ -23,6 +47,10 @@
     "defaultMessage": "Luminos",
     "description": "Light theme name in theme select dropdown."
   },
+  "wdX8rf": {
+    "defaultMessage": "New profile",
+    "description": "Create new user profile."
+  },
   "BvkEny": {
     "defaultMessage": "Preferinţa din Browserul Web",
     "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
@@ -30,6 +58,10 @@
   "MHoUWH": {
     "defaultMessage": "Preferinţa din Browserul Web",
     "description": "Default option for theme selection, the user can always go back to have the theme picked form their browser."
+  },
+  "d7hyof": {
+    "defaultMessage": "Te rugăm să adaugi o valoare.",
+    "description": "Form field is required."
   },
   "PiUxYv": {
     "defaultMessage": "Temă",

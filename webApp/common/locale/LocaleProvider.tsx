@@ -14,15 +14,23 @@ interface ILoadedLocale {
 }
 
 export interface ILocaleProviderProps {
+  onLocaleChanged(locale: ILocale): void;
 }
 
-export function LocaleProvider({ children }: PropsWithChildren<ILocaleProviderProps>): JSX.Element | null {
+export function LocaleProvider({ onLocaleChanged, children }: PropsWithChildren<ILocaleProviderProps>): JSX.Element | null {
   const languagePreferenceViewModel = useViewModelDependency(LanguagePreferenceViewModel, ["preferredLanguage"]);
 
   const overlayLoader = useOverlayLoader();
 
   const [locale, setLocale] = useState<ILocale>(resolveLocale(languagePreferenceViewModel.preferredLanguage === null ? navigator.languages : [languagePreferenceViewModel.preferredLanguage], DefaultLocale));
   const [loadedLocale, setLoadedLocale] = useState<ILoadedLocale | null>(null);
+
+  useEffect(
+    () => {
+      onLocaleChanged && onLocaleChanged(locale);
+    },
+    [locale, onLocaleChanged]
+  );
 
   useEffect(
     () => {
@@ -38,7 +46,7 @@ export function LocaleProvider({ children }: PropsWithChildren<ILocaleProviderPr
 
       return () => {
         window.onlanguagechange = null;
-      }
+      };
     },
     [languagePreferenceViewModel.preferredLanguage, setLocale]
   );
@@ -58,7 +66,7 @@ export function LocaleProvider({ children }: PropsWithChildren<ILocaleProviderPr
 
       return () => {
         document.body.parentElement?.removeAttribute("lang");
-      }
+      };
     },
     [locale, overlayLoader]
   );

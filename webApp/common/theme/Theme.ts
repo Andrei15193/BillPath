@@ -24,7 +24,7 @@ export const billPathLightTheme: Theme = {
 };
 
 export const billPathDarkTheme: Theme = {
-  ...createDarkTheme(billPathTheme),
+  ...createDarkTheme(billPathTheme)
 };
 
 billPathDarkTheme.colorBrandForeground1 = billPathTheme[110];

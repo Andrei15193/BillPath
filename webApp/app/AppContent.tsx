@@ -9,7 +9,7 @@ import { AppThemeViewModel } from "../common/theme/AppThemeViewModel";
 
 const useAppContentClassName = makeResetStyles({
   ...shorthands.flex(1, 1, "auto")
-})
+});
 
 export function AppContent(): JSX.Element {
   const { marginContentClassName } = useContentClassNames();
@@ -35,7 +35,9 @@ export function AppContent(): JSX.Element {
       <Select
         id="language-select"
         value={languagePreferenceViewModel.preferredLanguage === null ? "" : languagePreferenceViewModel.preferredLanguage}
-        onChange={(event, { value }) => { languagePreferenceViewModel.preferredLanguage = (value === "" ? null : value) }}>
+        onChange={(event, { value }) => {
+          languagePreferenceViewModel.preferredLanguage = (value === "" ? null : value);
+        }}>
         <option value="">
           <FormattedMessage defaultMessage="Web Browser Prefernece"  description="Default option for language selection, the user can always go back to have the language picked form their browser." />
         </option>
@@ -54,7 +56,9 @@ export function AppContent(): JSX.Element {
       <Select
         id="theme-select"
         value={appThemeViewModel.preferredTheme || ""}
-        onChange={(event, { value }) => { appThemeViewModel.preferredTheme = value === "" ? null : value as AppTheme }}>
+        onChange={(event, { value }) => {
+          appThemeViewModel.preferredTheme = value === "" ? null : value as AppTheme;
+        }}>
         <option value="">
           <FormattedMessage defaultMessage="Web Browser Prefernece"  description="Default option for theme selection, the user can always go back to have the theme picked form their browser." />
         </option>

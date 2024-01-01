@@ -1,13 +1,13 @@
 import type { ILocale } from "./ILocale";
-import type { IUserPreferencesStore } from "../../data/userPreferences/IUserPreferencesStore";
-import type { ICoreDependencies } from "../dependencies";
+import type { IUserPreferencesStore } from "../../data/userPreferences";
+import type { IDependencyResolver } from "../dependencies";
 import { ViewModel } from "react-model-view-viewmodel";
 import { SupportedLocales } from "./SupportedLocales";
 
 export class LanguagePreferenceViewModel extends ViewModel {
   private readonly _userPreferencesStore: IUserPreferencesStore;
 
-  public constructor({ userPreferencesStore }: ICoreDependencies) {
+  public constructor({ userPreferencesStore }: IDependencyResolver) {
     super();
 
     this._userPreferencesStore = userPreferencesStore;
