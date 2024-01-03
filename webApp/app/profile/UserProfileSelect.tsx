@@ -1,8 +1,12 @@
-import { Button, Card, CardFooter, CardPreview, Display, Divider, Title3, makeStyles, shorthands, tokens } from "@fluentui/react-components";
+import type { IUserProfile } from "../../data/userProfiles";
+import type { IObservedItem } from "../interaction/observedItems";
+import { Button, Card, CardFooter, CardPreview, Display, Divider, Title3, makeStyles, mergeClasses, shorthands, tokens } from "@fluentui/react-components";
 import { AddCircleRegular } from "@fluentui/react-icons";
 import { FormattedMessage } from "react-intl";
+import { useViewModel } from "react-model-view-viewmodel";
 import { AppFooter } from "../AppFooter";
 import { useViewModelDependency } from "../../common/dependencies";
+import { useObservedItems } from "../interaction/observedItems/useObservedItems";
 import { UserProfilesCollectionViewModel } from "./UserProfilesCollectionViewModel";
 import { AddUserProfileDialog } from "./AddUserProfileDialog";
 
@@ -23,10 +27,35 @@ const useProfileSelectorClassNames = makeStyles({
 
     ...shorthands.gap("20px")
   },
+  profileCard: {
+    ...shorthands.padding(tokens.spacingVerticalM),
+    width: "130px"
+  },
+  profileCardAdded: {
+    animationDuration: "0.4s",
+    animationIterationCount: "1",
+    animationTimingFunction: "ease-in-out",
+    animationName: {
+      "0%": {
+        width: 0,
+        ...shorthands.padding(0),
+        ...shorthands.margin(0, "-10px"),
+        opacity: 0
+      },
+      "60%": {
+        opacity: 0,
+        ...shorthands.padding(tokens.spacingVerticalM),
+        ...shorthands.margin(0),
+        width: "130px"
+      },
+      "100%": {
+        opacity: 1
+      }
+    }
+  },
   profileCardPreview: {
     ...shorthands.padding(tokens.spacingVerticalM),
     alignSelf: "center",
-    width: "100px",
     height: "100px"
   },
   profileCardFooter: {
@@ -37,9 +66,22 @@ const useProfileSelectorClassNames = makeStyles({
   }
 });
 
+function areSameUserProfiles(left: IUserProfile, right: IUserProfile): boolean {
+  return left.id === right.id;
+}
+
 export function UserProfileSelect(props: IUserProfileSelectProps): JSX.Element {
-  const { profileCardsList, profileCardPreview, profileCardFooter } = useProfileSelectorClassNames();
+  const { profileCardsList, profileCard, profileCardPreview, profileCardFooter } = useProfileSelectorClassNames();
   const profilesCollectionViewModel = useViewModelDependency(UserProfilesCollectionViewModel);
+
+  const observedUserProfiles = useObservedItems(
+    profilesCollectionViewModel.userProfiles,
+    {
+      addedItemAnimationDurationInMilliseconds: 500,
+      updatedItemAnimationDurationInMilliseconds: 0,
+      areSameItems: areSameUserProfiles
+    }
+  );
 
   return (
     <>
@@ -55,19 +97,8 @@ export function UserProfileSelect(props: IUserProfileSelectProps): JSX.Element {
       </Title3>
 
       <div className={profileCardsList}>
-        {
-          profilesCollectionViewModel.userProfiles.map(userProfile => (
-            <Card key={userProfile.id}>
-              <CardPreview className={profileCardPreview}>{userProfile.displayName}</CardPreview>
-              <CardFooter className={profileCardFooter}>
-                <Button>
-                  <FormattedMessage defaultMessage="Select" description="Select user profile." />
-                </Button>
-              </CardFooter>
-            </Card>
-          ))
-        }
-        <Card>
+        {observedUserProfiles.map(userProfile => <ProfileCard key={`${userProfile.removed ? "removed-" : ""}${userProfile.item.id}`} userProfile={userProfile} />)}
+        <Card className={profileCard}>
           <CardPreview className={profileCardPreview}>
             <AddCircleRegular />
           </CardPreview>
@@ -79,5 +110,26 @@ export function UserProfileSelect(props: IUserProfileSelectProps): JSX.Element {
 
       <AppFooter />
     </>
+  );
+}
+
+interface IProfileCardProps {
+  readonly userProfile: IObservedItem<IUserProfile>;
+}
+
+function ProfileCard({ userProfile }: IProfileCardProps): JSX.Element {
+  const { profileCard, profileCardAdded, profileCardPreview, profileCardFooter } = useProfileSelectorClassNames();
+
+  useViewModel(userProfile);
+
+  return (
+    <Card className={mergeClasses(profileCard, userProfile.added && profileCardAdded)}>
+      <CardPreview className={profileCardPreview}>{userProfile.item.displayName}</CardPreview>
+      <CardFooter className={profileCardFooter}>
+        <Button>
+          <FormattedMessage defaultMessage="Select" description="Select user profile." />
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
