@@ -1,7 +1,7 @@
 import type { IUserProfile } from "../../data/userProfiles";
 import { type DialogOpenChangeData, type DialogOpenChangeEvent, Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger } from "@fluentui/react-components";
 import { FormattedMessage } from "react-intl";
-import { useCallback, useRef, useState } from "react";
+import { type ReactEventHandler, useCallback, useRef, useState } from "react";
 import { useViewModel } from "react-model-view-viewmodel";
 import { useDependencyResolver } from "../../common/dependencies";
 import { FormField, FormInputField } from "../forms";
@@ -27,8 +27,10 @@ export function AddUserProfileDialog({ onUserProfileAdded }: IAddUserProfileDial
     [formRef, setIsDialogOpen]
   );
 
-  const addUserProfileAsyncCallback = useCallback(
-    async () => {
+  const addUserProfileAsyncCallback = useCallback<ReactEventHandler<HTMLElement>>(
+    async (event) => {
+      event.preventDefault();
+
       const userProfile = await formRef.current.addAsync();
       if (formRef.current.userProfileAdded) {
         setIsDialogOpen(false);
@@ -51,9 +53,11 @@ export function AddUserProfileDialog({ onUserProfileAdded }: IAddUserProfileDial
             <FormattedMessage defaultMessage="Add profile" description="Add user profile form caption." />
           </DialogTitle>
           <DialogContent>
-            <FormField field={formRef.current.displayName} label="Display name">
-              <FormInputField />
-            </FormField>
+            <form onSubmit={addUserProfileAsyncCallback}>
+              <FormField field={formRef.current.displayName} label="Display name">
+                <FormInputField />
+              </FormField>
+            </form>
           </DialogContent>
           <DialogActions>
             <DialogTrigger disableButtonEnhancement action="close">
