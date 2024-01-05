@@ -36,4 +36,19 @@ export class UserProfilesCollectionViewModel extends ViewModel {
       this.notifyPropertiesChanged("isProcessing");
     }
   }
+
+  public async removeAsync(userProfileId: string): Promise<void> {
+    try {
+      this._isProcessing = true;
+      this.notifyPropertiesChanged("isProcessing");
+
+      await this._userProfilesStore.removeAsync(userProfileId);
+      const profiles = await this._userProfilesStore.getAllAsync();
+      this._userProfiles.reset(...profiles);
+    }
+    finally {
+      this._isProcessing = false;
+      this.notifyPropertiesChanged("isProcessing");
+    }
+  }
 }

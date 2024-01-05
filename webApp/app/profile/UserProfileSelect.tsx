@@ -1,17 +1,21 @@
 import type { IUserProfile } from "../../data/userProfiles";
 import type { IObservedItem } from "../interaction/observedItems";
-import { Button, Card, CardFooter, CardPreview, Display, Divider, Title3, makeStyles, mergeClasses, shorthands, tokens } from "@fluentui/react-components";
-import { AddCircleRegular } from "@fluentui/react-icons";
+import { type MenuButtonProps, Card, CardFooter, CardPreview, Display, Divider, Menu, MenuItem, MenuList, MenuPopover, MenuTrigger, SplitButton, Title3, makeStyles, mergeClasses, shorthands, tokens } from "@fluentui/react-components";
+import { AddCircleRegular, DeleteRegular, DeleteFilled, bundleIcon } from "@fluentui/react-icons";
 import { FormattedMessage } from "react-intl";
 import { useViewModel } from "react-model-view-viewmodel";
+import { useCallback, useState } from "react";
 import { AppFooter } from "../AppFooter";
 import { useViewModelDependency } from "../../common/dependencies";
 import { useObservedItems } from "../interaction/observedItems/useObservedItems";
 import { UserProfilesCollectionViewModel } from "./UserProfilesCollectionViewModel";
 import { AddUserProfileDialog } from "./AddUserProfileDialog";
+import { RemoveUserProfileDialog } from "./RemoveUserProfileDialog";
 
 export interface IUserProfileSelectProps {
 }
+
+const DeleteIcon = bundleIcon(DeleteFilled, DeleteRegular);
 
 const useProfileSelectorClassNames = makeStyles({
   profileCardsList: {
@@ -29,7 +33,7 @@ const useProfileSelectorClassNames = makeStyles({
   },
   profileCard: {
     ...shorthands.padding(tokens.spacingVerticalM),
-    width: "130px"
+    width: "140px"
   },
   profileCardAdded: {
     animationDuration: "0.4s",
@@ -37,19 +41,57 @@ const useProfileSelectorClassNames = makeStyles({
     animationTimingFunction: "ease-in-out",
     animationName: {
       "0%": {
-        width: 0,
-        ...shorthands.padding(0),
+        pointerEvents: "none",
+
+        opacity: 0,
         ...shorthands.margin(0, "-10px"),
-        opacity: 0
+        ...shorthands.padding(0),
+        width: 0
       },
       "60%": {
+        pointerEvents: "none",
+
         opacity: 0,
-        ...shorthands.padding(tokens.spacingVerticalM),
         ...shorthands.margin(0),
-        width: "130px"
+        ...shorthands.padding(tokens.spacingVerticalM),
+        width: "140px"
       },
       "100%": {
+        pointerEvents: "initial",
+
         opacity: 1
+      }
+    }
+  },
+  profileCardRemoved: {
+    ...shorthands.margin(0, "-10px"),
+    ...shorthands.padding(0),
+    width: 0,
+
+    animationDuration: "0.5s",
+    animationIterationCount: "1",
+    animationTimingFunction: "ease-in-out",
+    animationName: {
+      "0%": {
+        pointerEvents: "none",
+
+        opacity: 1,
+        ...shorthands.margin(0),
+        ...shorthands.padding(tokens.spacingVerticalM),
+        width: "140px"
+      },
+      "40%": {
+        pointerEvents: "none",
+
+        opacity: 0,
+        ...shorthands.margin(0),
+        ...shorthands.padding(tokens.spacingVerticalM),
+        width: "140px"
+      },
+      "100%": {
+        pointerEvents: "initial",
+
+        opacity: 0
       }
     }
   },
@@ -74,13 +116,35 @@ export function UserProfileSelect(props: IUserProfileSelectProps): JSX.Element {
   const { profileCardsList, profileCard, profileCardPreview, profileCardFooter } = useProfileSelectorClassNames();
   const profilesCollectionViewModel = useViewModelDependency(UserProfilesCollectionViewModel);
 
+  const [selectedUserProfileForRemoval, selectUserProfileForRemoval] = useState<IUserProfile | null>(null);
+  const discardUserProfileForRemoval = useCallback(
+    () => {
+      selectUserProfileForRemoval(null);
+    },
+    [selectUserProfileForRemoval]
+  );
+
   const observedUserProfiles = useObservedItems(
     profilesCollectionViewModel.userProfiles,
     {
-      addedItemAnimationDurationInMilliseconds: 500,
+      addedItemAnimationDurationInMilliseconds: 400,
       updatedItemAnimationDurationInMilliseconds: 0,
+      removedItemAnimationDurationInMilliseconds: 500,
       areSameItems: areSameUserProfiles
     }
+  );
+
+  const onUserProfileAddedAsyncCallback = useCallback(
+    () => profilesCollectionViewModel.loadAsync(),
+    [profilesCollectionViewModel]
+  );
+
+  const onUserProfileRemovedAsyncCallback = useCallback(
+    async (userProfile: IUserProfile) => {
+      await profilesCollectionViewModel.removeAsync(userProfile.id);
+      selectUserProfileForRemoval(null);
+    },
+    [profilesCollectionViewModel, selectUserProfileForRemoval]
   );
 
   return (
@@ -97,38 +161,71 @@ export function UserProfileSelect(props: IUserProfileSelectProps): JSX.Element {
       </Title3>
 
       <div className={profileCardsList}>
-        {observedUserProfiles.map(userProfile => <ProfileCard key={`${userProfile.removed ? "removed-" : ""}${userProfile.item.id}`} userProfile={userProfile} />)}
+        {observedUserProfiles.map(userProfile => (
+          <ProfileCard
+            key={`${userProfile.removed ? "removed-" : ""}${userProfile.item.id}`}
+            userProfile={userProfile}
+            onRemove={selectUserProfileForRemoval} />
+        ))}
         <Card className={profileCard}>
           <CardPreview className={profileCardPreview}>
             <AddCircleRegular />
           </CardPreview>
           <CardFooter className={profileCardFooter}>
-            <AddUserProfileDialog onUserProfileAdded={() => profilesCollectionViewModel.loadAsync()} />
+            <AddUserProfileDialog onUserProfileAdded={onUserProfileAddedAsyncCallback} />
           </CardFooter>
         </Card>
       </div>
 
       <AppFooter />
+
+      <RemoveUserProfileDialog
+        userProfile={selectedUserProfileForRemoval}
+        onConfirm={onUserProfileRemovedAsyncCallback}
+        onCancel={discardUserProfileForRemoval} />
     </>
   );
 }
 
 interface IProfileCardProps {
   readonly userProfile: IObservedItem<IUserProfile>;
+
+  onRemove?(userProfile: IUserProfile): void;
 }
 
-function ProfileCard({ userProfile }: IProfileCardProps): JSX.Element {
-  const { profileCard, profileCardAdded, profileCardPreview, profileCardFooter } = useProfileSelectorClassNames();
+function ProfileCard({ userProfile, onRemove }: IProfileCardProps): JSX.Element {
+  const { profileCard, profileCardAdded, profileCardRemoved, profileCardPreview, profileCardFooter } = useProfileSelectorClassNames();
 
   useViewModel(userProfile);
 
+  const onRemoveCallback = useCallback(
+    () => {
+      onRemove && onRemove(userProfile.item);
+    },
+    [userProfile, onRemove]
+  );
+
   return (
-    <Card className={mergeClasses(profileCard, userProfile.added && profileCardAdded)}>
+    <Card className={mergeClasses(profileCard, userProfile.added && profileCardAdded, userProfile.removed && profileCardRemoved)}>
       <CardPreview className={profileCardPreview}>{userProfile.item.displayName}</CardPreview>
       <CardFooter className={profileCardFooter}>
-        <Button>
-          <FormattedMessage defaultMessage="Select" description="Select user profile." />
-        </Button>
+        <Menu positioning="below-end">
+          <MenuTrigger disableButtonEnhancement>
+            {(triggerProps: MenuButtonProps) => (
+              <SplitButton menuButton={triggerProps}>
+                <FormattedMessage defaultMessage="Select" description="Select user profile button label." />
+              </SplitButton>
+            )}
+          </MenuTrigger>
+
+          <MenuPopover>
+            <MenuList>
+              <MenuItem icon={<DeleteIcon />} onClick={onRemoveCallback}>
+                <FormattedMessage defaultMessage="Remove" description="Remove user profile button label." />
+              </MenuItem>
+            </MenuList>
+          </MenuPopover>
+        </Menu>
       </CardFooter>
     </Card>
   );

@@ -23,6 +23,14 @@
     "defaultMessage": "Cancel",
     "description": "Cancel adding a user profile button label."
   },
+  "L7VTrS": {
+    "defaultMessage": "Cancel",
+    "description": "Cancel user profile removal confirmation button label."
+  },
+  "wiVjXA": {
+    "defaultMessage": "Confirm removal",
+    "description": "Confirm user profile removal modal title."
+  },
   "p31Ozz": {
     "defaultMessage": "Dark",
     "description": "Dark theme name in theme select dropdown."
@@ -47,13 +55,25 @@
     "defaultMessage": "Please provide a value.",
     "description": "Form field is required."
   },
-  "QI118w": {
+  "GRIEGT": {
+    "defaultMessage": "Remove",
+    "description": "Confirm user profile removal confirmation button label."
+  },
+  "OzqT1Q": {
+    "defaultMessage": "Remove",
+    "description": "Remove user profile button label."
+  },
+  "NrXF6B": {
     "defaultMessage": "Select",
-    "description": "Select user profile."
+    "description": "Select user profile button label."
   },
   "PiUxYv": {
     "defaultMessage": "Theme",
     "description": "The select label for the theme picker."
+  },
+  "on9c4t": {
+    "defaultMessage": "This action will permanently remove the {displayName} user profile and all associated data, please confirm your action.",
+    "description": "Confirm user profile removal modal content."
   },
   "BvkEny": {
     "defaultMessage": "Web Browser Prefernece",

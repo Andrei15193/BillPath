@@ -1,19 +1,27 @@
 {
+  "on9c4t": {
+    "defaultMessage": "Această acţiune va șterge permanent profilul {displayName} și toate informaţiile asociate, te rugram să confirmi această acţiune.",
+    "description": "Confirm user profile removal modal content."
+  },
   "jH1yZU": {
     "defaultMessage": "Adaugă",
     "description": "Add user profile button label."
   },
   "c+6PbD": {
-    "defaultMessage": "Add profile",
+    "defaultMessage": "Adaugă profil",
     "description": "Add user profile form caption."
   },
-  "QI118w": {
+  "NrXF6B": {
     "defaultMessage": "Alege",
-    "description": "Select user profile."
+    "description": "Select user profile button label."
   },
   "KS9p8u": {
     "defaultMessage": "Anulează",
     "description": "Cancel adding a user profile button label."
+  },
+  "L7VTrS": {
+    "defaultMessage": "Anulează",
+    "description": "Cancel user profile removal confirmation button label."
   },
   "NHL8QP": {
     "defaultMessage": "BillPath",
@@ -35,6 +43,10 @@
     "defaultMessage": "Cine folosește aplicaţia?",
     "description": "Profile selection caption."
   },
+  "wiVjXA": {
+    "defaultMessage": "Confirmă ștergerea",
+    "description": "Confirm user profile removal modal title."
+  },
   "p31Ozz": {
     "defaultMessage": "Întunecat",
     "description": "Dark theme name in theme select dropdown."
@@ -47,10 +59,6 @@
     "defaultMessage": "Luminos",
     "description": "Light theme name in theme select dropdown."
   },
-  "wdX8rf": {
-    "defaultMessage": "New profile",
-    "description": "Create new user profile."
-  },
   "BvkEny": {
     "defaultMessage": "Preferinţa din Browserul Web",
     "description": "Default option for language selection, the user can always go back to have the language picked form their browser."
@@ -58,6 +66,18 @@
   "MHoUWH": {
     "defaultMessage": "Preferinţa din Browserul Web",
     "description": "Default option for theme selection, the user can always go back to have the theme picked form their browser."
+  },
+  "wdX8rf": {
+    "defaultMessage": "Profil nou",
+    "description": "Create new user profile."
+  },
+  "GRIEGT": {
+    "defaultMessage": "Șterge",
+    "description": "Confirm user profile removal confirmation button label."
+  },
+  "OzqT1Q": {
+    "defaultMessage": "Șterge",
+    "description": "Remove user profile button label."
   },
   "d7hyof": {
     "defaultMessage": "Te rugăm să adaugi o valoare.",
