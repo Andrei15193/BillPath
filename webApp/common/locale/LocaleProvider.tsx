@@ -18,7 +18,7 @@ export interface ILocaleProviderProps {
 }
 
 export function LocaleProvider({ onLocaleChanged, children }: PropsWithChildren<ILocaleProviderProps>): JSX.Element | null {
-  const languagePreferenceViewModel = useViewModelDependency(LanguagePreferenceViewModel, ["preferredLanguage"]);
+  const languagePreferenceViewModel = useViewModelDependency(LanguagePreferenceViewModel);
 
   const overlayLoader = useOverlayLoader();
 

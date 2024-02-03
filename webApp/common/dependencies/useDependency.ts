@@ -1,16 +1,18 @@
-import type { Type } from "./IDependencyResolver";
-import { useContext, useMemo } from "react";
-import { DependencyResolverContext } from "./DependencyResolverContext";
+import type { BasicDependency, SimpleDependency, ComplexDependency, DependencyToken } from "./IDependencyResolver";
+import { useMemo } from "react";
+import { useDependencyResolver } from "./useDependencyResolver";
 
-export function useDependency<T>(type: Type<T>): T {
-  const dependencyResolver = useContext(DependencyResolverContext);
+export function useDependency<T>(token: DependencyToken<T>): T;
+export function useDependency<T>(type: BasicDependency<T>): T;
+export function useDependency<T>(type: SimpleDependency<T>): T;
+export function useDependency<T, TAdditional extends readonly any[]>(type: ComplexDependency<T, TAdditional>, additionalDependencies: TAdditional): T;
 
-  if (dependencyResolver === null || dependencyResolver === undefined)
-    throw new Error("Dependency container is not configured.");
+export function useDependency<T, TAdditional extends readonly any[]>(typeOrToken: DependencyToken<T> | BasicDependency<T> | SimpleDependency<T> | ComplexDependency<T, TAdditional>, additionalDependencies: TAdditional = [] as any as TAdditional): T {
+  const dependecyResolver = useDependencyResolver();
 
   const instance = useMemo(
-    () => dependencyResolver.resolve(type),
-    [type]
+    () => dependecyResolver.resolve<T, TAdditional>(typeOrToken as any, additionalDependencies),
+    [dependecyResolver, ...additionalDependencies]
   );
 
   return instance;

@@ -23,7 +23,7 @@ export function ThemeProvider({ children }: PropsWithChildren<IThemeProviderProp
   const themeProviderClassName = useThemeProviderClassName();
   const overlayLoader = useOverlayLoader();
 
-  const appThemeViewModel = useViewModelDependency(AppThemeViewModel, ["preferredTheme"]);
+  const appThemeViewModel = useViewModelDependency(AppThemeViewModel);
 
   const browserThemeMediaQuery = useMemo(
     () => !window.matchMedia ? null : window.matchMedia("(prefers-color-scheme: dark)"),

@@ -1,34 +1,43 @@
 import type { IUserProfile } from "../data/userProfiles";
+import { useRef } from "react";
 import { IntlProvider } from "react-intl";
-import { useMemo, useRef } from "react";
+import { type IDependencyContainer, type IDependencyResolver, DependencyResolverProvider } from "../common/dependencies";
 import { DefaultLocale } from "../common/locale";
 import { AppTheme } from "../common/theme";
-import { DependencyContainer, DependencyResolverProvider, useDependencyResolver } from "../common/dependencies";
+import { UserPreferencesStore } from "../data/userPreferences/IUserPreferencesStore";
+import { UserProfilesStore } from "../data/userProfiles/IUserProfilesStore";
 import { App } from "./App";
+import { AppDependencyContainer } from "./AppDependencyContainer";
 
 export interface ITestAppProps {
 }
 
 export function TestApp(props: ITestAppProps): JSX.Element {
-  const baseDependencyResolver = useDependencyResolver();
+  const { current: dependencyResolver} = useRef<IDependencyResolver>(new AppDependencyContainer({ onInit: configureTestAppDependencies }));
 
-  const { current: userProfiles } = useRef<IUserProfile[]>([]);
-  const dependencyContainer = useMemo(
-    () => new DependencyContainer(baseDependencyResolver, {
-      localeResolver: {
-        locale: {
-          id: DefaultLocale,
-          displayName: "Default Locale",
-          resolveMessagesAsync() {
-            return Promise.reject(new Error("Cannot load locale in test context."));
-          }
-        }
-      },
-      userPreferencesStore: {
+  return (
+    <DependencyResolverProvider dependencyResolver={dependencyResolver}>
+      <IntlProvider locale={DefaultLocale} defaultLocale={DefaultLocale}>
+        <App />
+      </IntlProvider>
+    </DependencyResolverProvider>
+  );
+}
+
+function configureTestAppDependencies(dependencyContainer: IDependencyContainer): void {
+  const userProfiles: IUserProfile[] = [];
+
+  dependencyContainer
+    .registerInstanceToToken(
+      UserPreferencesStore,
+      {
         appTheme: AppTheme.light,
         language: DefaultLocale
-      },
-      userProfilesStore: {
+      }
+    )
+    .registerInstanceToToken(
+      UserProfilesStore,
+      {
         getAllAsync() {
           return Promise.resolve(userProfiles);
         },
@@ -59,15 +68,5 @@ export function TestApp(props: ITestAppProps): JSX.Element {
           return Promise.resolve();
         }
       }
-    }),
-    [baseDependencyResolver, userProfiles]
-  );
-
-  return (
-    <DependencyResolverProvider dependencyResolver={dependencyContainer}>
-      <IntlProvider locale={DefaultLocale} defaultLocale={DefaultLocale}>
-        <App />
-      </IntlProvider>
-    </DependencyResolverProvider>
-  );
+    );
 }

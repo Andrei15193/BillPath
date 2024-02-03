@@ -1,17 +1,32 @@
-import type { IUserPreferencesStore } from "../../data/userPreferences";
-import type { IUserProfilesStore } from "../../data/userProfiles";
-import type { ILocaleResolver } from "../locale";
+export interface IDependencyResolver {
+  createScope(): IDependencyResolver;
 
-export interface Type<T, TConstructorArgs extends readonly any[] = readonly any[]> {
-  new(...args: TConstructorArgs): T;
+  resolve<T>(token: DependencyToken<T>): T;
+  resolve<T>(type: BasicDependency<T>): T;
+  resolve<T>(type: SimpleDependency<T>): T;
+  resolve<T, TAdditional extends readonly any[]>(type: ComplexDependency<T, TAdditional>, additionalDependencies: TAdditional): T;
 }
 
-export interface IDependencyResolver {
-  readonly localeResolver: ILocaleResolver;
+export type BasicDependency<T> = {
+  new(): T;
+};
 
-  readonly userPreferencesStore: IUserPreferencesStore;
-  readonly userProfilesStore: IUserProfilesStore;
+export type SimpleDependency<T> = {
+  new(dependencyResolver: IDependencyResolver): T;
+};
 
-  resolve<T>(type: Type<T>): T;
-  resolve<T>(type: Type<T, [IDependencyResolver]>): T;
+export type ComplexDependency<T, TAdditional extends readonly any[]> = {
+  new(dependencyResolver: IDependencyResolver, ...additionalDependencies: TAdditional): T;
+};
+
+export class DependencyToken<T> {
+  public constructor(description: string) {
+    this.description = description;
+  }
+
+  public readonly description: string;
+
+  public toString(): string {
+    return this.description;
+  }
 }

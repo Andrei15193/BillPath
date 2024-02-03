@@ -1,18 +1,19 @@
 import type { IDependencyResolver } from "../../common/dependencies";
 import type { IUserProfile, IUserProfilesStore } from "../../data/userProfiles";
 import { type IReadOnlyObservableCollection, type IObservableCollection, ObservableCollection, ViewModel } from "react-model-view-viewmodel";
+import { UserProfilesStore } from "../../data/userProfiles/IUserProfilesStore";
 
 export class UserProfilesCollectionViewModel extends ViewModel {
   private _isProcessing: boolean;
   private readonly _userProfiles: IObservableCollection<IUserProfile>;
   private readonly _userProfilesStore: IUserProfilesStore;
 
-  public constructor({ userProfilesStore }: IDependencyResolver) {
+  public constructor({ resolve }: IDependencyResolver) {
     super();
 
     this._isProcessing = false;
     this._userProfiles = new ObservableCollection<IUserProfile>();
-    this._userProfilesStore = userProfilesStore;
+    this._userProfilesStore = resolve(UserProfilesStore);
   }
 
   public get isProcessing(): boolean {

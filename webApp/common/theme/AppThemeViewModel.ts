@@ -1,15 +1,16 @@
 import type { IUserPreferencesStore } from "../../data/userPreferences";
 import type { IDependencyResolver } from "../dependencies";
 import { ViewModel } from "react-model-view-viewmodel";
+import { UserPreferencesStore } from "../../data/userPreferences/IUserPreferencesStore";
 import { AppTheme } from "./AppTheme";
 
 export class AppThemeViewModel extends ViewModel {
   private readonly _userPreferencesStore: IUserPreferencesStore;
 
-  public constructor({ userPreferencesStore }: IDependencyResolver) {
+  public constructor({ resolve }: IDependencyResolver) {
     super();
 
-    this._userPreferencesStore = userPreferencesStore;
+    this._userPreferencesStore = resolve(UserPreferencesStore);
   }
 
   public get preferredTheme(): AppTheme | null {

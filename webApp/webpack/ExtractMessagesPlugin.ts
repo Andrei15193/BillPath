@@ -62,7 +62,7 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
     messageDescriptors.forEach(({ id: messageId, ...message }) => {
       this._extractedMessages.set(messageId!, message);
     });
-  }
+  };
 
   private _compileI18n(): void {
     execSync("npm run compile-i18n");
@@ -141,7 +141,7 @@ export class ExtractMessagesPlugin implements WebpackPluginInstance {
           reject(err);
         else
           resolve();
-      })
+      });
     });
   }
 }

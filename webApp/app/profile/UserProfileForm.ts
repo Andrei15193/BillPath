@@ -2,16 +2,17 @@ import type { IDependencyResolver } from "../../common/dependencies";
 import type { IUserProfile, IUserProfilesStore } from "../../data/userProfiles";
 import { BillPathFormFieldCollectionViewModel, BillPathFormFieldViewModel } from "../forms/viewModels";
 import { required } from "../forms/validators";
+import { UserProfilesStore } from "../../data/userProfiles/IUserProfilesStore";
 
 export class UserProfileForm extends BillPathFormFieldCollectionViewModel {
   private _isProcessing: boolean = false;
   private _userProfileAdded: boolean = false;
   private readonly _userProfilesStore: IUserProfilesStore;
 
-  public constructor({ userProfilesStore }: IDependencyResolver) {
+  public constructor({ resolve }: IDependencyResolver) {
     super();
 
-    this._userProfilesStore = userProfilesStore;
+    this._userProfilesStore = resolve(UserProfilesStore);
 
     this.registerFields(
       this.displayName = new BillPathFormFieldViewModel<string>({

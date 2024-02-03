@@ -2,15 +2,16 @@ import type { ILocale } from "./ILocale";
 import type { IUserPreferencesStore } from "../../data/userPreferences";
 import type { IDependencyResolver } from "../dependencies";
 import { ViewModel } from "react-model-view-viewmodel";
+import { UserPreferencesStore } from "../../data/userPreferences/IUserPreferencesStore";
 import { SupportedLocales } from "./SupportedLocales";
 
 export class LanguagePreferenceViewModel extends ViewModel {
   private readonly _userPreferencesStore: IUserPreferencesStore;
 
-  public constructor({ userPreferencesStore }: IDependencyResolver) {
+  public constructor({ resolve }: IDependencyResolver) {
     super();
 
-    this._userPreferencesStore = userPreferencesStore;
+    this._userPreferencesStore = resolve(UserPreferencesStore);
     this.supportedLocales = Object
       .getOwnPropertyNames(SupportedLocales)
       .map(language => SupportedLocales[language])

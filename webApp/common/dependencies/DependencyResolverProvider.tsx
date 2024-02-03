@@ -8,6 +8,6 @@ export interface IDependencyResolverProviderProps {
 
 export function DependencyResolverProvider({ dependencyResolver, children }: PropsWithChildren<IDependencyResolverProviderProps>): JSX.Element {
   return (
-    <DependencyResolverContext.Provider value={dependencyResolver} children={children} />
+    <DependencyResolverContext.Provider value={dependencyResolver} children={children}/>
   );
 }

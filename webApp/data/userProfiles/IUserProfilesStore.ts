@@ -1,4 +1,7 @@
 import type { IUserProfile } from "./IUserProfile";
+import { DependencyToken } from "../../common/dependencies";
+
+export const UserProfilesStore = new DependencyToken<IUserProfilesStore>("IUserProfilesStore");
 
 export interface IUserProfilesStore {
   getAllAsync(): Promise<IUserProfile[]>;
