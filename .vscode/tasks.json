@@ -14,7 +14,26 @@
       "problemMatcher": []
     },
     {
+      "label": "npm: compile i18n",
+      "detail": "npx formatjs compile-folder",
+      "isBackground": true,
+      "hide": true,
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "formatjs",
+        "compile-folder",
+        "i18n",
+        "locale"
+      ],
+      "options": {
+        "cwd": "webApp"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "npm: test - webApp",
+      "dependsOn": "npm: compile i18n",
       "detail": "jest",
       "type": "npm",
       "script": "test",
