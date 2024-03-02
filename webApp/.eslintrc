@@ -7,6 +7,7 @@
   "plugins": [
     "import",
     "react",
+    "react-hooks",
     "formatjs",
     "@stylistic",
     "@stylistic/ts",
@@ -168,6 +169,12 @@
           "style"
         ]
       }
+    ],
+    "react-hooks/rules-of-hooks": [
+      "error"
+    ],
+    "react-hooks/exhaustive-deps": [
+      "warn"
     ]
   }
 }
