@@ -1,4 +1,4 @@
-import { type IReadOnlyObservableCollection, ObservableCollection, useEvent, useObservableCollection } from "react-model-view-viewmodel";
+import { type IReadOnlyObservableCollection, type ICollectionChange, ObservableCollection, useEvent, useObservableCollection } from "react-model-view-viewmodel";
 import { useMemo } from "react";
 import { type EqualityComparerCallback, areSame } from "../../../common/equalityComparer";
 import { ObservedItem } from "./ObservedItem";
@@ -25,7 +25,7 @@ export function useObservedItems<T>(sourceCollection: IReadOnlyObservableCollect
   );
   useObservableCollection(observedItems);
 
-  useEvent(
+  useEvent<IReadOnlyObservableCollection<T>, ICollectionChange<T>>(
     sourceCollection.collectionChanged,
     (_, { addedItems, removedItems }) => {
       const sourceCollectionChangesStartIndex = Math.min(...addedItems.map((_, index) => index), ...removedItems.map((_, index) => index));
